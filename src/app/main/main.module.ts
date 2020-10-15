@@ -5,12 +5,21 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { MenuComponent } from './layout/menu/menu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RoleGuard } from '../lib/auth.guard';
+import { Role } from '../models/role';
 export const mainRoutes: Routes = [
   {
       path: '', component: MainComponent,
       children: [
         {
             path: '', component: DashboardComponent
+        },
+        {
+          path: 'user',
+          loadChildren: () =>
+            import('../main/user/user.module').then((m) => m.UserModule),
+          canActivate: [RoleGuard],
+          data: { roles: [Role.Admin,Role.User] },
         },
        
       ]

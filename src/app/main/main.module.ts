@@ -19,8 +19,14 @@ export const mainRoutes: Routes = [
           loadChildren: () =>
             import('../main/user/user.module').then((m) => m.UserModule),
           canActivate: [RoleGuard],
-          data: { roles: [Role.Admin,Role.User] },
         },
+        {
+          path: 'quanly',
+          loadChildren: () =>
+            import('../main/quanly/quanly.module').then((m) => m.QuanLyModule),
+          canActivate: [RoleGuard],
+        },
+        
        
       ]
   }

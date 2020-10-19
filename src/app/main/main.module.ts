@@ -7,12 +7,18 @@ import { MenuComponent } from './layout/menu/menu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RoleGuard } from '../lib/auth.guard';
 import { Role } from '../models/role';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { UnauthorizedComponent } from '../shared/unauthorized/unauthorized.component';
 export const mainRoutes: Routes = [
   {
       path: '', component: MainComponent,
       children: [
         {
             path: '', component: DashboardComponent
+        },
+        {
+          path: 'unauthorized',
+          component: UnauthorizedComponent,
         },
         {
           path: 'user',
@@ -43,6 +49,7 @@ export const mainRoutes: Routes = [
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RouterModule.forChild(mainRoutes)
   ]
 })

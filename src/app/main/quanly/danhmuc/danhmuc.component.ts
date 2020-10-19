@@ -7,13 +7,13 @@ import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 
 @Component({
-  selector: 'app-tintuc',
-  templateUrl: './tintuc.component.html',
-  styleUrls: ['./tintuc.component.css']
+  selector: 'app-danhmuc',
+  templateUrl: './danhmuc.component.html',
+  styleUrls: ['./danhmuc.component.css']
 })
-export class TintucComponent extends BaseComponent implements OnInit {
-  public tintucs: any;
-  public tintuc: any;
+export class DanhmucComponent extends BaseComponent implements OnInit {
+  public danhmucs: any;
+  public danhmuc: any;
   public totalRecords:any;
   public pageSize = 3;
   public page = 1;
@@ -30,27 +30,27 @@ export class TintucComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.formsearch = this.fb.group({
-      'tieude': [''] 
+      'loaitin': [''] 
     });
    this.search();
    console.log("ok");
   }
 
   loadPage(page) { 
-    this._api.post('/api/tintuc/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.tintucs = res.data;
+    this._api.post('/api/danhmuc/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.danhmucs = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
-      console.log(this.tintucs);
+      console.log(this.danhmucs);
   } 
 
   search() { 
     this.page = 1;
     this.pageSize = 5;
-    this._api.post('/api/tintuc/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.tintucs = res.data;
-      console.log(this.tintucs);
+    this._api.post('/api/danhmuc/search',{page: this.page, pageSize: this.pageSize, loaitin: this.formsearch.get('loaitin').value}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.danhmucs = res.data;
+      console.log(this.danhmucs);
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -66,13 +66,9 @@ export class TintucComponent extends BaseComponent implements OnInit {
     if(this.isCreate) { 
         let tmp = {
           maLoai:value.maloai,
-          tieuDe:value.tieude,
-          hinhAnh:value.hinhanh,
-          thoiGian:value.thoigian,
-          trangThai:value.trangthai,
-          noiDung:value.noidung,        
+          loaiTin:value.loaitin,     
           };
-        this._api.post('/api/tintuc/create-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/danhmuc/create-danhmuctin',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
@@ -80,13 +76,9 @@ export class TintucComponent extends BaseComponent implements OnInit {
     } else { 
         let tmp = {
           maLoai:value.maloai,
-          tieuDe:value.tieude,
-          hinhAnh:value.hinhanh,
-          thoiGian:value.thoigian,
-          trangThai:value.trangthai,
-          noiDung:value.noidung,         
+          loaiTin:value.loaitin,      
           };
-        this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/danhmuc/update-danhmuctin',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
@@ -96,21 +88,18 @@ export class TintucComponent extends BaseComponent implements OnInit {
   } 
 
   onDelete(row) { 
-    this._api.post('/api/tintuc/delete-tintuc',{user_id:row.user_id}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/danhmuc/delete-danhmuctin',{user_id:row.user_id}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
       });
   }
 
   Reset() {  
-    this.tintuc = null;
+    this.danhmuc = null;
     this.formdata = this.fb.group({
       'maloai': ['', Validators.required],
-        'tieude': ['', Validators.required],
-        'hinhanh': ['',Validators.required],
-        'ngay': ['', Validators.required],
-        'trangthai': ['', Validators.required],
-        'noidung': ['', Validators.required],
+      'loaitin': ['', Validators.required],
+
     }); 
   }
 
@@ -118,16 +107,12 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
     this.isCreate = true;
-    this.tintuc = null;
+    this.danhmuc = null;
     setTimeout(() => {
       $("#createUserModal").modal("show");
       this.formdata = this.fb.group({
         'maloai': ['', Validators.required],
-        'tieude': ['', Validators.required],
-        'hinhanh': ['',Validators.required],
-        'ngay': ['', Validators.required],
-        'trangthai': ['', Validators.required],
-        'noidung': ['', Validators.required],
+        'loaitin': ['', Validators.required],
       });
       this.doneSetupForm = true;
     });
@@ -139,16 +124,13 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/tintuc/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
-        this.tintuc = res; 
-        console.log(this.tintuc);
+      this._api.get('/api/danhmuc/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
+        this.danhmuc = res; 
+        console.log(this.danhmuc);
           this.formdata = this.fb.group({
-            'maloai': [this.tintuc.maLoai, Validators.required],
-            'tieude': [this.tintuc.tieuDe, Validators.required],
-            'hinhanh': [this.tintuc.hinhAnh,Validators.required],
-            'ngay': [this.tintuc.thoiGian, Validators.required],
-            'trangthai': [this.tintuc.trangThai, Validators.required],
-            'noidung': [this.tintuc.noiDung, Validators.required],
+            'maloai': [this.danhmuc.maLoai, Validators.required],
+            'loaitin': [this.danhmuc.loaiTin, Validators.required],
+
           }); 
           this.doneSetupForm = true;
         }); 
@@ -159,3 +141,4 @@ export class TintucComponent extends BaseComponent implements OnInit {
     $('#createUserModal').closest('.modal').modal('hide');
   }
 }
+

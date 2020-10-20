@@ -6,6 +6,7 @@ import { ApiService } from '../lib/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Injector } from '@angular/core';
 export class BaseComponent {
+  public _renderer:any;
    public genders: any;
    public roles: any;
    public locale_vn:any;

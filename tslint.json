@@ -56,6 +56,12 @@
       true,
       "ignore-params"
     ],
+    "no-import-side-effect": [
+      true,
+      {
+        "ignore-module": "(core-js/.*|zone\\.js/.*|@angular/localize/init)$"
+      }
+    ],
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,

@@ -32,6 +32,12 @@ export const mainRoutes: Routes = [
             import('../main/quanly/quanly.module').then((m) => m.QuanLyModule),
           canActivate: [RoleGuard],
         },
+        {
+          path: 'thongke',
+          loadChildren: () =>
+            import('../main/thongke/thongke.module').then((m) => m.ThongkeModule),
+          canActivate: [RoleGuard],
+        },
         
        
       ]
@@ -44,7 +50,7 @@ export const mainRoutes: Routes = [
     MainComponent,
     HeaderComponent, 
     MenuComponent, 
-    DashboardComponent, 
+    DashboardComponent 
 
   ],
   imports: [

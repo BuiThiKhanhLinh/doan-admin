@@ -3,6 +3,8 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { FormBuilder, Validators} from '@angular/forms';
 import { BaseComponent } from '../../../lib/base.component';
+import { Observable} from 'rxjs';
+import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
 
@@ -33,7 +35,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
       'tieude': [''] 
     });
    this.search();
-   console.log("ok");
+ 
   }
 
   loadPage(page) { 
@@ -42,7 +44,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
-      console.log(this.tintucs);
   } 
 
   search() { 
@@ -50,7 +51,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.pageSize = 5;
     this._api.post('/api/tintuc/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.tintucs = res.data;
-      console.log(this.tintucs);
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -157,5 +157,11 @@ export class TintucComponent extends BaseComponent implements OnInit {
 
   closeModal() {
     $('#createUserModal').closest('.modal').modal('hide');
+  }
+  catText(text: string, limit: number): string {
+    if(text.length > limit) {
+      return text.substr(0, limit) + "...";
+    }
+    return text;
   }
 }

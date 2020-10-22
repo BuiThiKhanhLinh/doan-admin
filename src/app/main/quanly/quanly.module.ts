@@ -8,9 +8,13 @@ import { TintucComponent } from './tintuc/tintuc.component';
 import { DanhmucComponent } from './danhmuc/danhmuc.component';
 import { BaivietComponent } from './baiviet/baiviet.component';
 import { BinhluanComponent } from './binhluan/binhluan.component';
+import { HocsinhComponent } from './hocsinh/hocsinh.component';
+import { GiaovienComponent } from './giaovien/giaovien.component';
+import { TkbComponent } from './tkb/tkb.component';
+import { LopComponent } from './lop/lop.component';
 
 @NgModule({
-  declarations: [TintucComponent,TintucComponent, DanhmucComponent, BaivietComponent, BinhluanComponent],
+  declarations: [TintucComponent,TintucComponent, DanhmucComponent, BaivietComponent, BinhluanComponent, HocsinhComponent, GiaovienComponent, TkbComponent, LopComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -26,6 +30,10 @@ import { BinhluanComponent } from './binhluan/binhluan.component';
       {
         path: 'baiviet',
         component: BaivietComponent,
+      },
+      {
+        path: 'binhluan',
+        component: BinhluanComponent,
       },
   ]),  
   ]

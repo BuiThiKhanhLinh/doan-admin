@@ -37,7 +37,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
     });
     this._api.get('/api/danhmuctin/get-all').takeUntil(this.unsubscribe).subscribe(res => {
       this.loaitin=res;
-      console.log(this.loaitin);
       });
    this.search();
  
@@ -70,12 +69,12 @@ export class TintucComponent extends BaseComponent implements OnInit {
     } 
     if(this.isCreate) { 
         let tmp = {
-          MaLoai:value.maloai,
-          TieuDe:value.tieude,
-          HinhAnh:value.hinhanh,
-          ThoiGian:value.thoigian,
-          TrangThai:value.trangthai,
-          NoiDung:value.noidung,        
+          maLoai:value.maloai,
+          tieuDe:value.tieude,
+          hinhAnh:value.hinhanh,
+          thoiGian:value.thoigian,
+          trangThai:value.trangthai,
+          noiDung:value.noidung,        
           };
         this._api.post('/api/tintuc/create-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
@@ -84,7 +83,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
           });
     } else { 
         let tmp = {
-          maTin:this.tintuc.maTin,
+          maTin:value.maTin,
           maLoai:value.maloai,
           tieuDe:value.tieude,
           hinhAnh:value.hinhanh,
@@ -114,7 +113,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
       'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'thoigian': ['', Validators.required],
+        'ngay': ['', Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
     }); 
@@ -131,7 +130,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
         'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'thoigian': ['', Validators.required],
+        'ngay': ['', Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
       });
@@ -147,11 +146,13 @@ export class TintucComponent extends BaseComponent implements OnInit {
       $('#createUserModal').modal('toggle');
       this._api.get('/api/tintuc/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.tintuc = res; 
+        console.log(this.tintuc);
           this.formdata = this.fb.group({
+            'matin': [this.tintuc.maTin, Validators.required],
             'maloai': [this.tintuc.maLoai, Validators.required],
             'tieude': [this.tintuc.tieuDe, Validators.required],
             'hinhanh': [this.tintuc.hinhAnh,Validators.required],
-            'thoigian': [this.tintuc.thoiGian, Validators.required],
+            'ngay': [this.tintuc.thoiGian, Validators.required],
             'trangthai': [this.tintuc.trangThai, Validators.required],
             'noidung': [this.tintuc.noiDung, Validators.required],
           }); 

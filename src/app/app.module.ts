@@ -8,6 +8,7 @@ import { JwtInterceptor } from './lib/jwt.interceptor';
 import { HttpClientModule } from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -17,6 +18,7 @@ import { LoginComponent } from './login/login.component';
     LoginComponent,
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

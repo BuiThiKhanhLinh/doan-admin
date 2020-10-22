@@ -34,24 +34,24 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th >Loại Tin</th>
                                     <th >Tiêu Đề</th>
                                     <th >Nội Dung</th>
                                     <th >Hình Ảnh</th>
                                     <th >Thời Gian</th>
                                     <th >Trạng Thái</th>
+                                    <th >SL bình luận</th>
                                 </tr>
                             </thead>
                             <tbody>
-                              <ng-container *ngFor="let item of tintucs, let i = index">
+                              <ng-container *ngFor="let item of baiviets, let i = index">
                                 <tr>
-                                  <td>{{i}}</td>
-                                    <td>{{ item.maLoai }}</td>
-                                    <td>{{catText(item.tieuDe, 50)}}</td>
-                                    <td>{{catText(item.noiDung, 140)}}</td>
+                                    <td>{{i}}</td>
+                                    <td>{{catText(item.tieuDe, 10)}}</td>
+                                    <td>{{catText(item.noiDung, 100)}}</td>
                                     <td>{{ item.hinhAnh }}</td>
                                     <td>{{ item.thoiGian }}</td>
                                     <td>{{ item.trangThai }}</td>
+                                    <td>{{ item.soLuongBL }}</td>
                                     
                                 </tr>
                               </ng-container>

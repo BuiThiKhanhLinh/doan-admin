@@ -6,16 +6,17 @@ import { BaseComponent } from '../../../lib/base.component';
 import { Observable} from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
+import { AuthenticationService } from 'src/app/lib/authentication.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-tintuc',
-  templateUrl: './tintuc.component.html',
-  styleUrls: ['./tintuc.component.css']
+  selector: 'app-baiviet',
+  templateUrl: './baiviet.component.html',
+  styleUrls: ['./baiviet.component.css']
 })
-export class TintucComponent extends BaseComponent implements OnInit {
-  public tintucs: any;
-  public tintuc: any;
+export class BaivietComponent extends BaseComponent implements OnInit {
+  public baiviets: any;
+  public baiviet: any;
   public totalRecords:any;
   public pageSize = 3;
   public page = 1;
@@ -27,7 +28,8 @@ export class TintucComponent extends BaseComponent implements OnInit {
   public isCreate:any;
   public loaitin:any;
   submitted = false;
-  constructor(private fb: FormBuilder, injector: Injector) {
+  @ViewChild(FileUpload, { static: false }) file_image: FileUpload;
+  constructor(private fb: FormBuilder, injector: Injector,  private authenticationService: AuthenticationService) {
     super(injector);
   }
 
@@ -35,17 +37,14 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.formsearch = this.fb.group({
       'tieude': [''] 
     });
-    this._api.get('/api/danhmuctin/get-all').takeUntil(this.unsubscribe).subscribe(res => {
-      this.loaitin=res;
-      console.log(this.loaitin);
-      });
+    console.log(this.authenticationService.userValue.maTK);
    this.search();
  
   }
 
   loadPage(page) { 
-    this._api.post('/api/tintuc/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.tintucs = res.data;
+    this._api.post('/api/baiviet/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.baiviets = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -54,8 +53,9 @@ export class TintucComponent extends BaseComponent implements OnInit {
   search() { 
     this.page = 1;
     this.pageSize = 5;
-    this._api.post('/api/tintuc/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.tintucs = res.data;
+    this._api.post('/api/baiviet/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
+      this.baiviets = res.data;
+      console.log(this.baiviets);
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -69,49 +69,54 @@ export class TintucComponent extends BaseComponent implements OnInit {
       return;
     } 
     if(this.isCreate) { 
+      this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
+        let data_image = data == '' ? null : data;
         let tmp = {
-          MaLoai:value.maloai,
           TieuDe:value.tieude,
-          HinhAnh:value.hinhanh,
+          HinhAnh:data_image,
           ThoiGian:value.thoigian,
           TrangThai:value.trangthai,
-          NoiDung:value.noidung,        
+          NoiDung:value.noidung,
+          MaTK: this.authenticationService.userValue.maTK        
           };
-        this._api.post('/api/tintuc/create-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/baiviet/create-baiviet',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
-          });
+        });
+      });
     } else { 
+      this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
+        let data_image = data == '' ? null : data;
         let tmp = {
-          maTin:this.tintuc.maTin,
-          maLoai:value.maloai,
+          maBaiViet:this.baiviet.maBaiViet,
           tieuDe:value.tieude,
-          hinhAnh:value.hinhanh,
+          hinhAnh:data_image,
           thoiGian:value.thoigian,
           trangThai:value.trangthai,
-          noiDung:value.noidung,         
+          noiDung:value.noidung,
+          maTK:this.baiviet.maTK         
           };
-        this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/baiviet/update-baiviet',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
-          });
+        });
+      });
     }
    
   } 
 
   onDelete(row) { 
-    this._api.post('/api/tintuc/delete-tintuc',{MaTin:row.maTin}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/baiviet/delete-baiviet',{maBaiViet:row.maBaiViet}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
       });
   }
 
   Reset() {  
-    this.tintuc = null;
+    this.baiviet = null;
     this.formdata = this.fb.group({
-      'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
         'thoigian': ['', Validators.required],
@@ -124,11 +129,10 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
     this.isCreate = true;
-    this.tintuc = null;
+    this.baiviet = null;
     setTimeout(() => {
       $("#createUserModal").modal("show");
       this.formdata = this.fb.group({
-        'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
         'thoigian': ['', Validators.required],
@@ -145,16 +149,15 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/tintuc/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
-        this.tintuc = res; 
-          this.formdata = this.fb.group({
-            'maloai': [this.tintuc.maLoai, Validators.required],
-            'tieude': [this.tintuc.tieuDe, Validators.required],
-            'hinhanh': [this.tintuc.hinhAnh,Validators.required],
-            'thoigian': [this.tintuc.thoiGian, Validators.required],
-            'trangthai': [this.tintuc.trangThai, Validators.required],
-            'noidung': [this.tintuc.noiDung, Validators.required],
-          }); 
+      this._api.get('/api/baiviet/get-by-id/'+ row.maBaiViet).takeUntil(this.unsubscribe).subscribe((res:any) => {
+        this.baiviet = res; 
+        this.formdata = this.fb.group({
+          'tieude': [this.baiviet.tieuDe, Validators.required],
+          'hinhanh': [this.baiviet.hinhAnh,Validators.required],
+          'thoigian': [this.baiviet.thoiGian, Validators.required],
+          'trangthai': [this.baiviet.trangThai, Validators.required],
+          'noidung': [this.baiviet.noiDung, Validators.required],
+        });  
           this.doneSetupForm = true;
         }); 
     }, 700);

@@ -37,7 +37,7 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
   }
 
   loadPage(page) { 
-    this._api.post('/api/danhmuc/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/danhmuctin/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
       this.danhmucs = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
@@ -48,7 +48,7 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
   search() { 
     this.page = 1;
     this.pageSize = 5;
-    this._api.post('/api/danhmuc/search',{page: this.page, pageSize: this.pageSize, loaitin: this.formsearch.get('loaitin').value}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/danhmuctin/search',{page: this.page, pageSize: this.pageSize, loaitin: this.formsearch.get('loaitin').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.danhmucs = res.data;
       console.log(this.danhmucs);
       this.totalRecords =  res.totalItems;
@@ -68,17 +68,17 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
           maLoai:value.maloai,
           loaiTin:value.loaitin,     
           };
-        this._api.post('/api/danhmuc/create-danhmuctin',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/danhmuctin/create-danhmuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
           });
     } else { 
         let tmp = {
-          maLoai:value.maloai,
+          maLoai:this.danhmuc.maLoai,
           loaiTin:value.loaitin,      
           };
-        this._api.post('/api/danhmuc/update-danhmuctin',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/danhmuctin/update-danhmuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
@@ -88,7 +88,7 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
   } 
 
   onDelete(row) { 
-    this._api.post('/api/danhmuc/delete-danhmuctin',{user_id:row.user_id}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/danhmuctin/delete-danhmuc',{MaLoai:row.maLoai}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
       });
@@ -124,7 +124,7 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/danhmuc/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
+      this._api.get('/api/danhmuctin/get-by-id/'+ row.maLoai).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.danhmuc = res; 
         console.log(this.danhmuc);
           this.formdata = this.fb.group({

@@ -1,9 +1,9 @@
 import { Role } from "./role";
 export class User {
-    id: number;
+    maTK: number;
     username: string;
     password: string;
-    hoten: string;
+    hoTen: string;
     role: Role;
     token?: string;
 }

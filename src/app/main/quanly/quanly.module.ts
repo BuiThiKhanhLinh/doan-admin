@@ -6,9 +6,11 @@ import { Role } from '../../models/role';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TintucComponent } from './tintuc/tintuc.component';
 import { DanhmucComponent } from './danhmuc/danhmuc.component';
+import { BaivietComponent } from './baiviet/baiviet.component';
+import { BinhluanComponent } from './binhluan/binhluan.component';
 
 @NgModule({
-  declarations: [TintucComponent,TintucComponent, DanhmucComponent],
+  declarations: [TintucComponent,TintucComponent, DanhmucComponent, BaivietComponent, BinhluanComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -20,6 +22,10 @@ import { DanhmucComponent } from './danhmuc/danhmuc.component';
       {
         path: 'danhmuc',
         component: DanhmucComponent,
+      },
+      {
+        path: 'baiviet',
+        component: BaivietComponent,
       },
   ]),  
   ]

@@ -5,12 +5,14 @@ import { RoleGuard } from '../../lib/auth.guard';
 import { Role } from '../../models/role';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TopbaivietComponent } from './topbaiviet/topbaiviet.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [TopbaivietComponent],
   imports: [
     CommonModule,
     SharedModule,
+    HttpClientModule,
     RouterModule.forChild([
       {
         path: 'topbaiviet',

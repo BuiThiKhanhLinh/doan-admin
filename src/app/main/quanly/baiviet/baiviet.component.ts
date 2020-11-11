@@ -7,6 +7,7 @@ import { Observable} from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
 import { AuthenticationService } from 'src/app/lib/authentication.service';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
@@ -29,7 +30,7 @@ export class BaivietComponent extends BaseComponent implements OnInit {
   public loaitin:any;
   submitted = false;
   @ViewChild(FileUpload, { static: false }) file_image: FileUpload;
-  constructor(private fb: FormBuilder, injector: Injector,  private authenticationService: AuthenticationService) {
+  constructor(private fb: FormBuilder, injector: Injector,  private authenticationService: AuthenticationService, private datePipe: DatePipe) {
     super(injector);
   }
 
@@ -37,7 +38,6 @@ export class BaivietComponent extends BaseComponent implements OnInit {
     this.formsearch = this.fb.group({
       'tieude': [''] 
     });
-    console.log(this.authenticationService.userValue.maTK);
    this.search();
  
   }
@@ -65,16 +65,19 @@ export class BaivietComponent extends BaseComponent implements OnInit {
 
   onSubmit(value) {
     this.submitted = true;
-    if (this.formdata.invalid) {
-      return;
-    } 
+    // console.log(this.formdata.invalid);
+    // if (this.formdata.invalid) {
+    //   return;
+    // } 
+    
     if(this.isCreate) { 
-      this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
-        let data_image = data == '' ? null : data;
+      console.log(value);
+      var date = new Date();
+      let ngay =this.datePipe.transform(date,"yyyy-MM-dd");
         let tmp = {
           TieuDe:value.tieude,
-          HinhAnh:data_image,
-          ThoiGian:value.thoigian,
+          HinhAnh:value.hinhanh,
+          ThoiGian:ngay,
           TrangThai:value.trangthai,
           NoiDung:value.noidung,
           MaTK: this.authenticationService.userValue.maTK        
@@ -83,31 +86,29 @@ export class BaivietComponent extends BaseComponent implements OnInit {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
-        });
-      });
+          });
     } else { 
-      this.getEncodeFromImage(this.file_image).subscribe((data: any): void => {
-        let data_image = data == '' ? null : data;
+      console.log(value.thoigian);
         let tmp = {
           maBaiViet:this.baiviet.maBaiViet,
           tieuDe:value.tieude,
-          hinhAnh:data_image,
-          thoiGian:value.thoigian,
+          hinhAnh:value.hinhanh,
+          thoiGian:this.baiviet.thoiGian,
           trangThai:value.trangthai,
           noiDung:value.noidung,
-          maTK:this.baiviet.maTK         
+          maTK:this.baiviet.maTK       
           };
         this._api.post('/api/baiviet/update-baiviet',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
-        });
-      });
+          });
     }
    
   } 
 
   onDelete(row) { 
+    console.log(row.maBaiViet);
     this._api.post('/api/baiviet/delete-baiviet',{maBaiViet:row.maBaiViet}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
@@ -135,7 +136,6 @@ export class BaivietComponent extends BaseComponent implements OnInit {
       this.formdata = this.fb.group({
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'thoigian': ['', Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
       });
@@ -154,7 +154,6 @@ export class BaivietComponent extends BaseComponent implements OnInit {
         this.formdata = this.fb.group({
           'tieude': [this.baiviet.tieuDe, Validators.required],
           'hinhanh': [this.baiviet.hinhAnh,Validators.required],
-          'thoigian': [this.baiviet.thoiGian, Validators.required],
           'trangthai': [this.baiviet.trangThai, Validators.required],
           'noidung': [this.baiviet.noiDung, Validators.required],
         });  

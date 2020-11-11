@@ -6,6 +6,7 @@ import { BaseComponent } from '../../../lib/base.component';
 import { Observable} from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 
 @Component({
@@ -27,7 +28,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
   public isCreate:any;
   public loaitin:any;
   submitted = false;
-  constructor(private fb: FormBuilder, injector: Injector) {
+  constructor(private fb: FormBuilder, injector: Injector, private datePipe: DatePipe) {
     super(injector);
   }
 
@@ -37,9 +38,9 @@ export class TintucComponent extends BaseComponent implements OnInit {
     });
     this._api.get('/api/danhmuctin/get-all').takeUntil(this.unsubscribe).subscribe(res => {
       this.loaitin=res;
-      console.log(this.loaitin);
       });
    this.search();
+   
  
   }
 
@@ -53,7 +54,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
 
   search() { 
     this.page = 1;
-    this.pageSize = 5;
+    this.pageSize = 4;
     this._api.post('/api/tintuc/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.tintucs = res.data;
       this.totalRecords =  res.totalItems;
@@ -69,11 +70,13 @@ export class TintucComponent extends BaseComponent implements OnInit {
       return;
     } 
     if(this.isCreate) { 
+      var date = new Date();
+      let ngay =this.datePipe.transform(date,"yyyy-MM-dd");
         let tmp = {
           MaLoai:value.maloai,
           TieuDe:value.tieude,
           HinhAnh:value.hinhanh,
-          ThoiGian:value.thoigian,
+          ThoiGian:ngay,
           TrangThai:value.trangthai,
           NoiDung:value.noidung,        
           };
@@ -83,12 +86,13 @@ export class TintucComponent extends BaseComponent implements OnInit {
           this.closeModal();
           });
     } else { 
+      let ngay =this.datePipe.transform(this.tintuc.thoiGian,"yyyy-MM-dd");
         let tmp = {
           maTin:this.tintuc.maTin,
           maLoai:value.maloai,
           tieuDe:value.tieude,
           hinhAnh:value.hinhanh,
-          thoiGian:value.thoigian,
+          thoiGian:ngay,
           trangThai:value.trangthai,
           noiDung:value.noidung,         
           };
@@ -114,7 +118,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
       'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'thoigian': ['', Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
     }); 
@@ -131,7 +134,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
         'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'thoigian': ['', Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
       });
@@ -151,7 +153,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
             'maloai': [this.tintuc.maLoai, Validators.required],
             'tieude': [this.tintuc.tieuDe, Validators.required],
             'hinhanh': [this.tintuc.hinhAnh,Validators.required],
-            'thoigian': [this.tintuc.thoiGian, Validators.required],
             'trangthai': [this.tintuc.trangThai, Validators.required],
             'noidung': [this.tintuc.noiDung, Validators.required],
           }); 

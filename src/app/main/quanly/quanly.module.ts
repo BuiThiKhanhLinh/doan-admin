@@ -32,8 +32,12 @@ import { LopComponent } from './lop/lop.component';
         component: BaivietComponent,
       },
       {
-        path: 'binhluan',
+        path: 'binhluan/:id',
         component: BinhluanComponent,
+      },
+      {
+        path: 'giaovien',
+        component: GiaovienComponent,
       },
   ]),  
   ]

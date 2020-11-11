@@ -7,6 +7,17 @@
             </div>
         </div>
     </div>
+    <!-- <div class="col-sm-8">
+        <div class="page-header float-right">
+            <div class="page-title">
+                <ol class="breadcrumb text-right">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Table</a></li>
+                    <li class="active">Data table</li>
+                </ol>
+            </div>
+        </div>
+    </div> -->
 </div>
 <div class="content mt-3">
     <div class="animated fadeIn">
@@ -15,7 +26,7 @@
               <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
                 <div class="row form-group">
                   <div class="col-sm-1">
-                    <label class="control-label"> Tiêu đề</label>
+                    <label class="control-label"> Bình luận</label>
                   </div>
                   <div class="col-sm-6">
                     <input formControlName="tieude" class="form-control"  type="text" placeholder="Tin Tức" style="width: 100%;" />
@@ -27,12 +38,7 @@
               </form>
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">QUẢN LÝ TIN TỨC</strong>
-                        <p class="pull-right">
-                            <a (click)="createModal()" class="btn btn-success btn-xs">
-                            <i class="fa fa-plus"></i>&nbsp;Thêm
-                            </a>
-                        </p>
+                        <strong class="card-title">QUẢN LÝ BÌNH LUẬN</strong>
                     </div>
                     
                     <div class="card-body">
@@ -41,21 +47,19 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th >Nội Dung</th>
-                                    <th >Bài Viết</th>
-                                    <th >Tài khoản</th>
+                                    <th >Mã tài khoản</th>
+                                    <th >Nội dung</th>
                                     <th >Thời Gian</th>
                                     <th >Trạng Thái</th>
                                     <th>Tác Vụ</th>
                                 </tr>
                             </thead>
                             <tbody>
-                              
+                              <ng-container *ngFor="let item of binhluans, let i = index">
                                 <tr>
                                   <td>{{i+1}}</td>
-                                    <td>{{catText(item.tieuDe, 50)}}</td>
-                                    <td>{{catText(item.noiDung, 140)}}</td>
-                                    <td>{{ item.hinhAnh }}</td>
+                                    <td>{{ item.maTK }}</td>
+                                    <td>{{catText(item.noiDung, 100)}}</td>
                                     <td>{{ item.thoiGian | date:'dd-MM-yyyy' }}</td>
                                     <td>{{ item.trangThai }}</td>
                                     <td class="action-col" >
@@ -69,7 +73,7 @@
                                         </div>  
                                       </td>
                                 </tr>
-                             
+                              </ng-container>
                             </tbody>
                         </table>
                     </div>
@@ -87,17 +91,29 @@
 
 
 
-
-<div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
+ <div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin bài viết</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin bài viết</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin tin tức</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin tin tức</h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
             <div class="row">
+                <div class="col-6">
+                   <div class="form-group">
+                      <label class=" form-control-label">Mã loại</label>
+                      <div class="input-group">
+                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                          <select formControlName="maloai" class="form-control">
+                            <ng-container *ngFor="let item of loaitin" >
+                             <option value="{{item.maLoai}}">{{item.loaiTin}}</option>
+                            </ng-container>
+                          </select>
+                      </div>
+                   </div>
+                </div>
                 <div class="col-6">
                    <div class="form-group">
                       <label class=" form-control-label">Tiêu đề</label>
@@ -111,20 +127,8 @@
                    <div class="form-group">
                       <label class=" form-control-label">Hình ảnh</label>
                       <div class="input-group">
-                        <p-fileUpload #file_image mode="advanced" [showUploadButton]="false" cancelLabel="Hủy" chooseLabel ="Chọn ảnh"   multiple="false" accept="image/*" maxFileSize="1000000">
-                          <ng-template pTemplate="content">
-                              <img *ngIf="baiviet && baiviet.hinhAnh" style="height: 100px;width: 100px;" [src]="baiviet.hinhAnh">
-                          </ng-template>
-                    </p-fileUpload>
-                      </div>
-                   </div>
-                </div>
-                <div class="col-6">
-                   <div class="form-group">
-                      <label class=" form-control-label">Ngày</label>
-                      <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-asterisk"></i></div>
-                         <input  type="text" formControlName="thoigian" class="form-control">
+                         <div class="input-group-addon"><i class="fa fa-usd"></i></div>
+                         <input  type="text" formControlName="hinhanh" class="form-control">
                       </div>
                    </div>
                 </div>

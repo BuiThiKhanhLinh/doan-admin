@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import {DatePipe} from '@angular/common';
 
 
 
@@ -27,6 +28,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

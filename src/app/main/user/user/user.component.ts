@@ -3,7 +3,10 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { FileUpload } from 'primeng/fileupload';
 import { FormBuilder, Validators} from '@angular/forms';
 import { BaseComponent } from '../../../lib/base.component';
+import { Observable} from 'rxjs';
+import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
+import { DatePipe } from '@angular/common';
 declare var $: any;
 @Component({
   selector: 'app-user',
@@ -23,11 +26,15 @@ export class UserComponent extends BaseComponent implements OnInit {
   public showUpdateModal:any;
   public isCreate:any;
   submitted = false;
-  constructor(private fb: FormBuilder, injector: Injector) {
+  constructor(private fb: FormBuilder, injector: Injector, private datePipe: DatePipe) {
     super(injector);
   }
 
   ngOnInit(): void {
+    this.formsearch = this.fb.group({
+      'hoten': [''],
+      'username': [''],     
+    });
   }
-    
 }
+   

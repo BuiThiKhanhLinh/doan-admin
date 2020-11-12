@@ -39,6 +39,10 @@ import { LopComponent } from './lop/lop.component';
         path: 'giaovien',
         component: GiaovienComponent,
       },
+      {
+        path: 'hocsinh',
+        component: HocsinhComponent,
+      },
   ]),  
   ]
 })

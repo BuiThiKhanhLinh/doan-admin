@@ -38,6 +38,7 @@ export class BaivietComponent extends BaseComponent implements OnInit {
     this.formsearch = this.fb.group({
       'tieude': [''] 
     });
+    console.log(this.authenticationService.userValue);
    this.search();
  
   }

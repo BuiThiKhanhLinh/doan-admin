@@ -4,6 +4,6 @@ export class User {
     username: string;
     password: string;
     hoTen: string;
-    role: Role;
+    phanQuyen: Role;
     token?: string;
 }

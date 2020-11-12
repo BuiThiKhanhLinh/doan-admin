@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Học Sinh</a>
+                    <a [routerLink]="['/quanly/hocsinh']"> <i class="menu-icon fa fa-tasks"></i>Học Sinh</a>
                    
                 </li>
                 <li>
@@ -40,10 +40,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Lớp Học</a>
                     
                 </li>
-
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa fa-address-book"></i>Tài Khoản</a>
-                   
+                <li>
+                    <a [routerLink]="['/user']"> <i class="menu-icon fa fa fa-address-book"></i>Tài Khoản</a>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Thống kê</a>

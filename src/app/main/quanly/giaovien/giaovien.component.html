@@ -81,10 +81,7 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
-
     </div>
     <div class="col-xs-12" style="text-align: right;">
         <ngb-pagination [collectionSize]="totalRecords" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
@@ -94,8 +91,8 @@
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin tin tức</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin tin tức</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin giáo viênc</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin giáo viên</h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
@@ -105,7 +102,20 @@
                       <label class=" form-control-label">Môn Dạy</label>
                       <div class="input-group">
                          <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                         <input type="text" formControlName="monday" class="form-control">
+                         <select formControlName="monday" class="form-control">
+                           <option value="Công Nghệ">Công Nghệ</option>
+                           <option value="Địa Lý">Địa Lý</option>
+                           <option value="GDCD">GDCD</option>
+                           <option value="GDQP">GDQP</option>
+                           <option value="Hóa Học">Hóa Học</option>
+                           <option value="Sinh Học">Sinh Học</option>
+                           <option value="Sử Học">Sử Học</option>
+                           <option value="Thể Dục">Thể Dục</option>
+                           <option value="Tin Học">Tin Học</option>
+                           <option value="Toán">Toán</option>
+                           <option value="Văn Học">Văn Học</option>
+                           <option value="Vật Lý">Vật Lý</option>                       
+                        </select>
                       </div>
                    </div>
                 </div>
@@ -114,7 +124,14 @@
                       <label class=" form-control-label">Tổ Dạy</label>
                       <div class="input-group">
                          <div class="input-group-addon"><i class="fa fa-usd"></i></div>
-                         <input  type="text" formControlName="today" class="form-control">
+                         <select formControlName="today" class="form-control">
+                          <option value="GDCD - Công Nghệ">GDCD - Công Nghệ</option>
+                          <option value="Văn Sử Địa">Văn Sử Địa</option>
+                          <option value="TD - GDQP">TD - GDQP</option>
+                          <option value="Hóa Sinh">Hóa Sinh</option>
+                          <option value="Tin">	Tin</option>
+                          <option value="Toán Lý">Toán Lý</option>                      
+                       </select>
                       </div>
                    </div>
                 </div>
@@ -137,6 +154,15 @@
                     </div>
                  </div>
                  <div class="col-6">
+                  <div class="form-group">
+                     <label class=" form-control-label">Địa Chỉ</label>
+                     <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                        <input  type="text" formControlName="diachi"  class="form-control">
+                     </div>
+                  </div>
+               </div>
+                 <div class="col-6">
                     <div class="form-group">
                        <label class=" form-control-label">SĐT</label>
                        <div class="input-group">
@@ -150,7 +176,10 @@
                        <label class=" form-control-label">Chức Vụ</label>
                        <div class="input-group">
                           <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                          <input  type="text" formControlName="chucvu"  class="form-control">
+                          <select formControlName="chucvu" class="form-control">
+                            <option value="Tổ Trưởng - GV">Tổ Trưởng - GV</option>
+                            <option value="GV">GV</option>       
+                         </select>
                        </div>
                     </div>
                  </div>

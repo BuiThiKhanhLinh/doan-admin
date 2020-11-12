@@ -52,8 +52,8 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
 
   search() { 
     this.page = 1;
-    this.pageSize = 4;
-    this._api.post('/api/giaovien/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('hoten').value}).takeUntil(this.unsubscribe).subscribe(res => {
+    this.pageSize = 8;
+    this._api.post('/api/giaovien/search',{page: this.page, pageSize: this.pageSize, hoten: this.formsearch.get('hoten').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.giaoviens = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
@@ -68,13 +68,13 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
       return;
     } 
     if(this.isCreate) { 
-      var date = new Date();
-      let ngay =this.datePipe.transform(date,"yyyy-MM-dd");
+      let ngay =this.datePipe.transform(value.ngaysinh,"yyyy-MM-dd");
         let tmp = {
           MonDay:value.monday,
-          ToDay:value.today,
+          ToDay:value.today,  
           HoTen:value.hoten,
           NgaySinh:ngay,
+          DiaChi:value.diachi,
           SDT:value.sdt,
           ChucVu:value.chucvu,
           MaLop:value.malop,        
@@ -85,17 +85,19 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
           this.closeModal();
           });
     } else { 
-      let ngay =this.datePipe.transform(this.giaovien.thoiGian,"yyyy-MM-dd");
+      let ngay =this.datePipe.transform(value.ngaysinh,"yyyy-MM-dd");
         let tmp = {
           maGV:this.giaovien.maGV,
           monDay:value.monday,
           toDay:value.today,
           hoTen:value.hoten,
           ngaySinh:ngay,
+          diaChi:value.diachi,
           sdt:value.sdt,
           chucVu:value.chucvu, 
           maLop:value.malop        
           };
+          console.log(tmp);
         this._api.post('/api/giaovien/update-giaovien',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
@@ -106,7 +108,7 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
   } 
 
   onDelete(row) { 
-    this._api.post('/api/giaovien/delete-giaovien',{MaTin:row.maTin}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/giaovien/delete-giaovien',{MaGV:row.maGV}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
       });
@@ -119,6 +121,7 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
         'today': ['', Validators.required],
         'hoten': ['',Validators.required],
         'ngaysinh': ['', Validators.required],
+        'diachi': ['', Validators.required],
         'sdt': ['', Validators.required],
         'chucvu': ['', Validators.required],
         'malop': ['', Validators.required],
@@ -137,9 +140,10 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
         'today': ['', Validators.required],
         'hoten': ['',Validators.required],
         'ngaysinh': ['', Validators.required],
+        'diachi': ['', Validators.required],
         'sdt': ['', Validators.required],
         'chucvu': ['', Validators.required],
-        'malop': ['', Validators.required],
+        'malop': [''],
       });
       this.doneSetupForm = true;
     });
@@ -151,16 +155,18 @@ export class GiaovienComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/giaovien/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
+      this._api.get('/api/giaovien/get-by-id/'+ row.maGV).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.giaovien = res; 
+        let ngay =this.datePipe.transform(this.giaovien.ngaySinh,"dd-MM-yyyy");
           this.formdata = this.fb.group({
             'monday': [this.giaovien.monDay, Validators.required],
             'today': [this.giaovien.toDay, Validators.required],
             'hoten': [this.giaovien.hoTen,Validators.required],
-            'ngaysinh': [this.giaovien.ngaySinh, Validators.required],
+            'ngaysinh': [ngay, Validators.required],
+            'diachi': [this.giaovien.diaChi, Validators.required],
             'sdt': [this.giaovien.sdt, Validators.required],
             'chucvu': [this.giaovien.chucVu, Validators.required],
-            'maLop': [this.giaovien.maLop, Validators.required],
+            'maLop': [this.giaovien.maLop],
           }); 
           this.doneSetupForm = true;
         }); 

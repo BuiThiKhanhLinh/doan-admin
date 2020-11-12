@@ -99,24 +99,12 @@
                    <div class="form-group">
                       <label class=" form-control-label">Mã Lớp</label>
                       <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                         <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
                          <select formControlName="malop" class="form-control">
-                           <option value="10A1">10A1</option>
-                           <option value="10A2">10A2</option>
-                           <option value="10A3">10A3</option>
-                           <option value="10A4">10A4</option>
-                           <option value="10A5">10A5</option>
-                           <option value="11A1">11A1</option>
-                           <option value="11A2">11A2</option>
-                           <option value="11A3">11A3</option>
-                           <option value="11A4">11A4</option>
-                           <option value="11A5">11A5</option>
-                           <option value="12A1">12A1</option>
-                           <option value="12A2">12A2</option>
-                           <option value="12A3">12A3</option>
-                           <option value="12A4">12A4</option>
-                           <option value="12A5">12A5</option>                   
-                        </select>
+                            <ng-container *ngFor="let item of malop" >
+                             <option value="{{item.maLop}}">{{item.maLop}}</option>
+                            </ng-container>
+                          </select>
                       </div>
                    </div>
                 </div>
@@ -124,7 +112,7 @@
                    <div class="form-group">
                       <label class=" form-control-label">Họ Tên</label>
                       <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
                          <input  type="text" formControlName="hoten"  class="form-control">
                       </div>
                    </div>
@@ -133,8 +121,13 @@
                     <div class="form-group">
                        <label class=" form-control-label">Giới Tính</label>
                        <div class="input-group">
-                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                          <input  type="text" formControlName="gioitinh"  class="form-control">
+                          <div class="input-group-addon"><i class="fa fa-transgender"></i></div>
+                          <select formControlName="malop" class="form-control">
+                         
+                             <option value="Nam">Nam</option>
+                             <option value="Nữ">Nữ</option>
+                           
+                          </select>
                        </div>
                     </div>
                  </div>
@@ -142,7 +135,7 @@
                     <div class="form-group">
                        <label class=" form-control-label">Ngày Sinh</label>
                        <div class="input-group">
-                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                           <input  type="text" formControlName="ngaysinh"  class="form-control">
                        </div>
                     </div>
@@ -151,7 +144,7 @@
                   <div class="form-group">
                      <label class=" form-control-label">Địa Chỉ</label>
                      <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-address-book"></i></div>
                         <input  type="text" formControlName="diachi"  class="form-control">
                      </div>
                   </div>
@@ -160,7 +153,7 @@
                     <div class="form-group">
                        <label class=" form-control-label">SĐT</label>
                        <div class="input-group">
-                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                          <div class="input-group-addon"><i class="fa fa-phone"></i></div>
                           <input  type="text" formControlName="sdt"  class="form-control">
                        </div>
                     </div>

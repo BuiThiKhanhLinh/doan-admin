@@ -91,7 +91,7 @@
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin giáo viênc</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin giáo viên</h4>
           <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin giáo viên</h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
@@ -101,7 +101,7 @@
                    <div class="form-group">
                       <label class=" form-control-label">Môn Dạy</label>
                       <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                         <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
                          <select formControlName="monday" class="form-control">
                            <option value="Công Nghệ">Công Nghệ</option>
                            <option value="Địa Lý">Địa Lý</option>
@@ -139,7 +139,7 @@
                    <div class="form-group">
                       <label class=" form-control-label">Họ Tên</label>
                       <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
                          <input  type="text" formControlName="hoten"  class="form-control">
                       </div>
                    </div>
@@ -148,7 +148,7 @@
                     <div class="form-group">
                        <label class=" form-control-label">Ngày Sinh</label>
                        <div class="input-group">
-                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                           <input  type="text" formControlName="ngaysinh"  class="form-control">
                        </div>
                     </div>
@@ -157,7 +157,7 @@
                   <div class="form-group">
                      <label class=" form-control-label">Địa Chỉ</label>
                      <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                        <div class="input-group-addon"><i class="fa fa-address-book"></i></div>
                         <input  type="text" formControlName="diachi"  class="form-control">
                      </div>
                   </div>
@@ -166,7 +166,7 @@
                     <div class="form-group">
                        <label class=" form-control-label">SĐT</label>
                        <div class="input-group">
-                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                          <div class="input-group-addon"><i class="fa fa-phone"></i></div>
                           <input  type="text" formControlName="sdt"  class="form-control">
                        </div>
                     </div>
@@ -175,7 +175,7 @@
                     <div class="form-group">
                        <label class=" form-control-label">Chức Vụ</label>
                        <div class="input-group">
-                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                          <div class="input-group-addon"><i class="fa fa-wpforms"></i></div>
                           <select formControlName="chucvu" class="form-control">
                             <option value="Tổ Trưởng - GV">Tổ Trưởng - GV</option>
                             <option value="GV">GV</option>       

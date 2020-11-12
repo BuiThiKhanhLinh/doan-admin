@@ -78,15 +78,12 @@
                     </div>
                 </div>
             </div>
-
-
-        </div>
-
-    </div><!-- .animated -->
+       </div>
+    </div>
     <div class="col-xs-12" style="text-align: right;">
         <ngb-pagination [collectionSize]="totalRecords" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
       </div>
-</div><!-- .content -->
+</div>
 
 
 <div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
@@ -103,7 +100,7 @@
                  <div class="form-group">
                     <label class=" form-control-label">Tiêu đề</label>
                     <div class="input-group">
-                       <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                       <div class="input-group-addon"><i class="fa fa-list-alt"></i></div>
                        <input type="text" formControlName="tieude" class="form-control">
                     </div>
                  </div>

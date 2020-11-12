@@ -43,6 +43,10 @@ import { LopComponent } from './lop/lop.component';
         path: 'hocsinh',
         component: HocsinhComponent,
       },
+      {
+        path: 'lop',
+        component: LopComponent,
+      },
   ]),  
   ]
 })

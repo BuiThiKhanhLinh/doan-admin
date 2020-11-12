@@ -155,7 +155,7 @@ export class HocsinhComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/hocsinh/get-by-id/'+ row.maGV).takeUntil(this.unsubscribe).subscribe((res:any) => {
+      this._api.get('/api/hocsinh/get-by-id/'+ row.maHS).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.hocsinh = res; 
         let ngay =this.datePipe.transform(this.hocsinh.ngaySinh,"dd-MM-yyyy");
           this.formdata = this.fb.group({

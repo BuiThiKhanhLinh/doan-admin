@@ -1,4 +1,4 @@
-<!-- 
+
  <div class="breadcrumbs">
     <div class="col-sm-4">
         <div class="page-header float-left">
@@ -54,8 +54,8 @@
                             <thead>
                                 <tr>
                                     <th>STT</th>
-                                    <th >Usernam</th>
-                                    <th >Password </th>
+                                    <th >Tên tài khoản</th>
+                                    <th >Mật khẩu</th>
                                     <th >Họ Tên </th>
                                     <th >Ngày Sinh</th>
                                     <th >Địa Chỉ </th>
@@ -65,11 +65,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <ng-container *ngFor="let item of taikhoan, let i = index">
+                              <ng-container *ngFor="let item of users, let i = index">
                                 <tr>
                                   <td>{{i+1}}</td>
-                                    <td>{{ item.userName }}</td>
-                                    <td>{{item.passWord}}</td>
+                                    <td>{{ item.username }}</td>
+                                    <td>{{item.password}}</td>
                                     <td>{{item.hoTen}}</td>
                                     <td>{{ item.ngaySinh | date:'dd-MM-yyyy' }}</td>
                                     <td>{{ item.diaChi }}</td>
@@ -103,46 +103,88 @@
     <div class="modal-dialog modal-lg full-height-modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin tin tức</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin tin tức</h4>
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin tài khoản</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin tài khoản</h4>
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
             <div class="row">
                 <div class="col-6">
                    <div class="form-group">
-                      <label class=" form-control-label">Tiêu đề</label>
+                      <label class=" form-control-label">Tên tài khoản</label>
                       <div class="input-group">
                          <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                         <input type="text" formControlName="tieude" class="form-control">
+                         <input type="text" formControlName="UserName" class="form-control">
                       </div>
                    </div>
                 </div>
                 <div class="col-6">
                    <div class="form-group">
-                      <label class=" form-control-label">Hình ảnh</label>
+                      <label class=" form-control-label">Mật khẩu</label>
                       <div class="input-group">
                          <div class="input-group-addon"><i class="fa fa-usd"></i></div>
-                         <input  type="text" formControlName="hinhanh" class="form-control">
+                         <input  type="text" formControlName="Password" class="form-control">
                       </div>
                    </div>
                 </div>
                 <div class="col-6">
                    <div class="form-group">
-                      <label class=" form-control-label">Trạng thái</label>
+                      <label class=" form-control-label">Họ tên</label>
                       <div class="input-group">
                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                         <input  type="text" formControlName="trangthai"  class="form-control">
+                         <input  type="text" formControlName="HoTen"  class="form-control">
                       </div>
                    </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                     <label class=" form-control-label">Nội dung</label>
-                     <textarea formControlName="noidung" name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
+                    <label class=" form-control-label">Ngày sinh</label>
+                    <div class="input-group">
+                       <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                       <input  type="text" formControlName="NgaySinh"  class="form-control">
+                    </div>
                   </div>
                </div>
+               <div class="col-6">
+                <div class="form-group">
+                  <label class=" form-control-label">Địa chỉ</label>
+                  <div class="input-group">
+                     <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                     <input  type="text" formControlName="DiaChi"  class="form-control">
+                  </div>
+                </div>
              </div>
+             <div class="col-6">
+              <div class="form-group">
+                <label class=" form-control-label">SĐT</label>
+                <div class="input-group">
+                   <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                   <input  type="text" formControlName="SDT"  class="form-control">
+                </div>
+              </div>
+           </div>
+           <div class="col-6">
+            <div class="form-group">
+              <label class=" form-control-label">Email</label>
+              <div class="input-group">
+                 <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                 <input  type="text" formControlName="Email"  class="form-control">
+              </div>
+            </div>
+         </div>
+         <div class="col-6">
+          <div class="form-group">
+            <label class=" form-control-label">Phân quyền</label>
+            <div class="input-group">
+              <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+              <select formControlName="PhanQuyen" class="form-control">
+                <option value="Admin" selected>Admin</option>
+                <option value="User">User</option>                     
+             </select>
+            </div>
+          </div>
+       </div>
+      </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-sm" (click)="Reset()">
@@ -158,4 +200,4 @@
       </form>  
       </div>
     </div>
-  </div> -->
+  </div>

@@ -34,7 +34,7 @@ export class LopComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.formsearch = this.fb.group({
-      'hoten': [''] 
+      'tenlop': [''] 
     });
     this._api.get('/api/lop/get-all').takeUntil(this.unsubscribe).subscribe(res => {
       this.malop=res;
@@ -54,7 +54,7 @@ export class LopComponent extends BaseComponent implements OnInit {
   search() { 
     this.page = 1;
     this.pageSize = 10;
-    this._api.post('/api/lop/search',{page: this.page, pageSize: this.pageSize, hoten: this.formsearch.get('hoten').value}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/lop/search',{page: this.page, pageSize: this.pageSize, tenlop: this.formsearch.get('tenlop').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.lops = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
@@ -97,7 +97,7 @@ export class LopComponent extends BaseComponent implements OnInit {
   } 
 
   onDelete(row) { 
-    this._api.post('/api/lop/delete-lop',{MaHS:row.maHS}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/lop/delete-lop',{MaLop:row.maLop}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
       this.search(); 
       });

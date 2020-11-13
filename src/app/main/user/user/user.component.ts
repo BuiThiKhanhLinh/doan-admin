@@ -16,8 +16,8 @@ declare var $: any;
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent extends BaseComponent implements OnInit {
-  public users: any;
-  public user: any;
+  public taikhoans: any;
+  public taikhoan: any;
   public totalRecords:any;
   public pageSize = 3;
   public page = 1;
@@ -41,7 +41,7 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
   loadPage(page) { 
     this._api.post('/api/taikhoan/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.users = res.data;
+      this.taikhoans = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       
@@ -52,7 +52,7 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.page = 1;
     this.pageSize = 10;
     this._api.post('/api/taikhoan/search',{page: this.page, pageSize: this.pageSize, hoten: this.formsearch.get('hoten').value,username: this.formsearch.get('username').value}).takeUntil(this.unsubscribe).subscribe(res => {
-      this.users = res.data;
+      this.taikhoans = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -66,15 +66,16 @@ export class UserComponent extends BaseComponent implements OnInit {
       return;
     } 
     if(this.isCreate) { 
+      let ngay =this.datePipe.transform(value.ngaysinh,"yyyy-MM-dd");
         let tmp = {
-          UserName:value.UserName,  
-          PassWord:value.Password,
-          HoTen:value.HoTen,
-          NgaySinh:value.NgaySinh,
-          DiaChi: value.DiaChi,
-          SDT: value.SDT,
-          Email: value.Email,
-          PhanQuyen: value.PhanQuyen
+          Username:value.username,  
+          PassWord:value.password,
+          HoTen:value.hoten,
+          NgaySinh:ngay,
+          DiaChi: value.diachi,
+          SDT: value.sdt,
+          Email: value.email,
+          PhanQuyen: value.phanquyen
           };
         this._api.post('/api/taikhoan/create-taikhoan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
@@ -82,16 +83,17 @@ export class UserComponent extends BaseComponent implements OnInit {
           this.closeModal();
           });
     } else { 
+      let ngay =this.datePipe.transform(value.ngaysinh,"yyyy-MM-dd");
         let tmp = {
-          MaTK: this.user.maTK,
-          UserName: value.UserName,  
-          PassWord:value.Password,
-          HoTen:value.HoTen,
-          NgaySinh:value.NgaySinh,
-          DiaChi: value.DiaChi,
-          SDT: value.SDT,
-          Email: value.Email,
-          PhanQuyen: value.PhanQuyen     
+          maTK: this.taikhoan.matk,
+          username: value.username,  
+          passWord:value.password,
+          hoTen:value.hoten,
+          ngaySinh:ngay,
+          diaChi: value.diachi,
+          sdt: value.sdt,
+          email: value.email,
+          phanQuyen: value.phanquyen     
           };
           console.log(tmp);
         this._api.post('/api/taikhoan/update-taikhoan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
@@ -111,16 +113,16 @@ export class UserComponent extends BaseComponent implements OnInit {
   }
 
   Reset() {  
-    this.user = null;
+    this.taikhoan= null;
     this.formdata = this.fb.group({
-        'UserName': ['', Validators.required],
-        'Password': ['',Validators.required],
-        'HoTen': ['',Validators.required],
-        'NgaySinh': ['',Validators.required],
-        'DiaChi': ['',Validators.required],
-        'SDT': ['',Validators.required],
-        'Email': ['',Validators.required],
-        'PhanQuyen': ['',Validators.required],
+        'username': ['', Validators.required],
+        'password': ['',Validators.required],
+        'hoten': ['',Validators.required],
+        'ngaysinh': ['',Validators.required],
+        'diachi': ['',Validators.required],
+        'sdt': ['',Validators.required],
+        'email': ['',Validators.required],
+        'phanquyen': ['',Validators.required],
 
     }); 
   }
@@ -129,21 +131,21 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
     this.isCreate = true;
-    this.user = null;
+    this.taikhoan = null;
     setTimeout(() => {
       $("#createUserModal").modal("show");
       this.formdata = this.fb.group({
-        'UserName': ['', Validators.required],
-        'Password': ['',Validators.required],
-        'HoTen': ['',Validators.required],
-        'NgaySinh': ['',Validators.required],
-        'DiaChi': ['',Validators.required],
-        'SDT': ['',Validators.required],
-        'Email': ['',Validators.required],
-        'PhanQuyen': ['',Validators.required],
+        'username': ['', Validators.required],
+        'password': ['',Validators.required],
+        'hoten': ['',Validators.required],
+        'ngaysinh': ['',Validators.required],
+        'diachi': ['',Validators.required],
+        'sdt': ['',Validators.required],
+        'email': ['',Validators.required],
+        'phanquyen': ['',Validators.required],
 
       });
-      this.formdata.get('PhanQuyen').setValue('Admin');
+      this.formdata.get('phanquyen').setValue('Admin');
       this.doneSetupForm = true;
     });
   }
@@ -155,18 +157,19 @@ export class UserComponent extends BaseComponent implements OnInit {
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
       this._api.get('/api/taikhoan/get-by-id/'+ row.maTK).takeUntil(this.unsubscribe).subscribe((res:any) => {
-        this.user = res; 
+        this.taikhoan = res; 
+        let ngay =this.datePipe.transform(this.taikhoan.ngaySinh,"dd-MM-yyyy");
           this.formdata = this.fb.group({
-            'UserName': [this.user.username, Validators.required],
-            'Password': [this.user.password,Validators.required],
-            'HoTen': [this.user.hoTen,Validators.required],
-            'NgaySinh': [this.user.ngaySinh,Validators.required],
-            'DiaChi': [this.user.diaChi,Validators.required],
-            'SDT': [this.user.sdt,Validators.required],
-            'Email': [this.user.email,Validators.required],
-            'PhanQuyen': [this.user.phanQuyen,Validators.required],
+            'username': [this.taikhoan.username, Validators.required],
+            'password': [this.taikhoan.password,Validators.required],
+            'hoten': [this.taikhoan.hoTen,Validators.required],
+            'ngaysinh': [ngay, Validators.required],
+            'diachi': [this.taikhoan.diaChi,Validators.required],
+            'sdt': [this.taikhoan.sdt,Validators.required],
+            'email': [this.taikhoan.email,Validators.required],
+            'phanquyen': [this.taikhoan.phanQuyen,Validators.required],
           }); 
-          this.formdata.get('PhanQuyen').setValue(this.user.phanQuyen.trim());
+          this.formdata.get('phanquyen').setValue(this.taikhoan.phanQuyen.trim());
           this.doneSetupForm = true;
         }); 
     }, 700);

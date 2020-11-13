@@ -31,7 +31,7 @@
                     <label class="control-label"> Usernam</label>
                   </div>
                   <div class="col-sm-6">
-                    <input formControlName="usernam" class="form-control"  type="text" placeholder="Usernam" style="width: 100%;" />
+                    <input formControlName="username" class="form-control"  type="text" placeholder="Username" style="width: 100%;" />
                   </div>
                   <div class="col-sm-3">
                     <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
@@ -65,7 +65,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <ng-container *ngFor="let item of users, let i = index">
+                              <ng-container *ngFor="let item of taikhoans, let i = index">
                                 <tr>
                                   <td>{{i+1}}</td>
                                     <td>{{ item.username }}</td>
@@ -113,8 +113,8 @@
                    <div class="form-group">
                       <label class=" form-control-label">Tên tài khoản</label>
                       <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                         <input type="text" formControlName="UserName" class="form-control">
+                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                         <input type="text" formControlName="username" class="form-control">
                       </div>
                    </div>
                 </div>
@@ -123,7 +123,7 @@
                       <label class=" form-control-label">Mật khẩu</label>
                       <div class="input-group">
                          <div class="input-group-addon"><i class="fa fa-usd"></i></div>
-                         <input  type="text" formControlName="Password" class="form-control">
+                         <input  type="text" formControlName="password" class="form-control">
                       </div>
                    </div>
                 </div>
@@ -131,8 +131,8 @@
                    <div class="form-group">
                       <label class=" form-control-label">Họ tên</label>
                       <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                         <input  type="text" formControlName="HoTen"  class="form-control">
+                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                         <input  type="text" formControlName="hoten"  class="form-control">
                       </div>
                    </div>
                 </div>
@@ -140,8 +140,8 @@
                   <div class="form-group">
                     <label class=" form-control-label">Ngày sinh</label>
                     <div class="input-group">
-                       <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                       <input  type="text" formControlName="NgaySinh"  class="form-control">
+                       <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                       <input  type="text" formControlName="ngaysinh"  class="form-control">
                     </div>
                   </div>
                </div>
@@ -149,8 +149,8 @@
                 <div class="form-group">
                   <label class=" form-control-label">Địa chỉ</label>
                   <div class="input-group">
-                     <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                     <input  type="text" formControlName="DiaChi"  class="form-control">
+                     <div class="input-group-addon"><i class="fa fa-address-book"></i></div>
+                     <input  type="text" formControlName="diachi"  class="form-control">
                   </div>
                 </div>
              </div>
@@ -158,8 +158,8 @@
               <div class="form-group">
                 <label class=" form-control-label">SĐT</label>
                 <div class="input-group">
-                   <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                   <input  type="text" formControlName="SDT"  class="form-control">
+                   <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                   <input  type="text" formControlName="sdt"  class="form-control">
                 </div>
               </div>
            </div>
@@ -168,7 +168,7 @@
               <label class=" form-control-label">Email</label>
               <div class="input-group">
                  <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                 <input  type="text" formControlName="Email"  class="form-control">
+                 <input  type="text" formControlName="email"  class="form-control">
               </div>
             </div>
          </div>
@@ -177,7 +177,7 @@
             <label class=" form-control-label">Phân quyền</label>
             <div class="input-group">
               <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-              <select formControlName="PhanQuyen" class="form-control">
+              <select formControlName="phanquyen" class="form-control">
                 <option value="Admin" selected>Admin</option>
                 <option value="User">User</option>                     
              </select>

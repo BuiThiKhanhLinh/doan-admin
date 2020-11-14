@@ -1,1 +1,197 @@
-<p>tkb works!</p>
+
+ <div class="breadcrumbs">
+    <div class="col-sm-4">
+        <div class="page-header float-left">
+            <div class="page-title">
+                <h1>TRƯỜNG THPT KHOÁI CHÂU</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content mt-3">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
+                <div class="row form-group">
+                  <div class="col-sm-1">
+                    <label class="control-label">Tên Lớp</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <input formControlName="malop" class="form-control"  type="text" placeholder="Lớp" style="width: 100%;" />
+                  </div>
+                  <div class="col-sm-3">
+                    <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                  </div>
+                </div>
+              </form>
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title" >QUẢN LÝ THỜI KHÓA BIỂU </strong>
+                        <p class="pull-right">
+                            <a (click)="createModal()" class="btn btn-success btn-xs">
+                            <i class="fa fa-plus"></i>&nbsp;Thêm
+                            </a>
+                        </p>
+                    </div>                 
+                    <div class="card-body">                     
+                        <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th >Thời khóa biểu các lớp </th>                           
+                                    <th>Tác Vụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <ng-container *ngFor="let item of tkbs">
+                                <tr>
+                                  <td>{{ item.maLop }}</td>
+                                    <td style="text-align: center;"> 
+                                       
+                                          <tr>
+                                            <th>TIẾT</th>
+                                            <th>Thứ 2</th>
+                                            <th>Thứ 3</th>
+                                            <th>Thứ 4</th>
+                                            <th>Thứ 5</th>
+                                            <th>Thứ 6</th>
+                                            <th>Thứ 7</th>
+                                          </tr>
+                                        
+                                          <tr>
+                                            <td>{{ item.tietDay }}</td>
+                                            <td>Doe</td>
+                                            <td>John</td>
+                                            <td>John</td>
+                                            <td>Doe</td>
+                                            <td>John</td>
+                                            <td>John</td>
+                                          </tr>
+                                        </td>
+                                   
+                                    
+                                    <td class="action-col" >
+                                        <div class="btn-group">
+                                          <button title="" class="btn btn-xs btn-white btn-default" (click)="openUpdateModal(item)">  
+                                            <i class="ace-icon fa fa-edit"></i>
+                                          </button>
+                                          <button title="" class="btn btn-xs btn-white btn-default"(click)="onDelete(item)">
+                                            <i class="ace-icon fa fa-trash"></i>
+                                          </button>
+                                        </div>  
+                                      </td>
+                                </tr>
+                              </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-xs-12" style="text-align: right;">
+        <ngb-pagination [collectionSize]="totalRecords" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+      </div> -->
+</div>
+ <div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg full-height-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin học sinh</h4>
+          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin học sinh</h4>
+        </div>
+        <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
+          <div class="modal-body no-padding">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                       <label class=" form-control-label">Họ Tên</label>
+                       <div class="input-group">
+                          <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                          <input  type="text" formControlName="hoten"  class="form-control">
+                       </div>
+                    </div>
+                 </div>
+                <div class="col-6">
+                   <div class="form-group">
+                      <label class=" form-control-label">Họ Tên</label>
+                      <div class="input-group">
+                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                         <input  type="text" formControlName="hoten"  class="form-control">
+                      </div>
+                   </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                       <label class=" form-control-label">Giới Tính</label>
+                       <div class="input-group">
+                          <div class="input-group-addon"><i class="fa fa-transgender"></i></div>
+                          <select formControlName="malop" class="form-control">
+                         
+                             <option value="Nam">Nam</option>
+                             <option value="Nữ">Nữ</option>
+                           
+                          </select>
+                       </div>
+                    </div>
+                 </div>
+                <div class="col-6">
+                    <div class="form-group">
+                       <label class=" form-control-label">Ngày Sinh</label>
+                       <div class="input-group">
+                          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                          <input  type="text" formControlName="ngaysinh"  class="form-control">
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-6">
+                  <div class="form-group">
+                     <label class=" form-control-label">Địa Chỉ</label>
+                     <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-address-book"></i></div>
+                        <input  type="text" formControlName="diachi"  class="form-control">
+                     </div>
+                  </div>
+               </div>
+                 <div class="col-6">
+                    <div class="form-group">
+                       <label class=" form-control-label">SĐT</label>
+                       <div class="input-group">
+                          <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                          <input  type="text" formControlName="sdt"  class="form-control">
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-6">
+                    <div class="form-group">
+                       <label class=" form-control-label">Khóa Học</label>
+                       <div class="input-group">
+                          <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                          <select formControlName="khoahoc" class="form-control">
+                            <option value="2020-2023">2020-2023</option>
+                            <option value="2021-2024">2021-2024</option>  
+                            <option value="2022-2025">2022-2025</option>
+                            <option value="2023-2026">2023-2026</option>       
+                         </select>
+                       </div>
+                    </div>
+                 </div>
+             </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-sm" (click)="Reset()">
+            <i class="fa fa-bell"></i> Làm mới
+          </button>
+          <button type="submit" class="btn btn-success btn-sm btn-submit">
+            <i class="fa fa-save"></i> Đồng ý
+          </button>
+          <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">
+            <i class="fa fa-times"></i> Đóng lại
+          </button>
+        </div>
+      </form>  
+      </div>
+    </div>
+  </div>
+

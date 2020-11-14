@@ -159,7 +159,7 @@ export class HocsinhComponent extends BaseComponent implements OnInit {
         this.hocsinh = res; 
         let ngay =this.datePipe.transform(this.hocsinh.ngaySinh,"dd-MM-yyyy");
           this.formdata = this.fb.group({
-            'maLop': [this.hocsinh.maLop],
+            'malop': [this.hocsinh.maLop],
             'hoten': [this.hocsinh.hoTen,Validators.required],
             'gioitinh': [this.hocsinh.gioitinh,Validators.required],
             'ngaysinh': [ngay, Validators.required],

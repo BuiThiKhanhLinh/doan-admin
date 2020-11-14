@@ -47,6 +47,10 @@ import { LopComponent } from './lop/lop.component';
         path: 'lop',
         component: LopComponent,
       },
+      {
+        path: 'tkb',
+        component: TkbComponent,
+      },
   ]),  
   ]
 })

@@ -66,11 +66,6 @@ export class BaivietComponent extends BaseComponent implements OnInit {
 
   onSubmit(value) {
     this.submitted = true;
-    // console.log(this.formdata.invalid);
-    // if (this.formdata.invalid) {
-    //   return;
-    // } 
-    
     if(this.isCreate) { 
       console.log(value);
       var date = new Date();

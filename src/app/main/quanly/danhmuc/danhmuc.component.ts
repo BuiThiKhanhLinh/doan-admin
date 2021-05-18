@@ -33,7 +33,6 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
       'loaitin': [''] 
     });
    this.search();
-   console.log("ok");
   }
 
   loadPage(page) { 

@@ -26,7 +26,6 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
   public doneSetupForm: any;  
   public showUpdateModal:any;
   public isCreate:any;
-  public loaitin:any;
   submitted = false;
   public mabv:any;
   constructor(private fb: FormBuilder, injector: Injector, private datePipe: DatePipe) {
@@ -35,7 +34,7 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.formsearch = this.fb.group({
-      'tieude': [''] 
+      'mabv': [''] 
     });
     this._route.params.subscribe(params => {
       this.mabv = params['id'];
@@ -45,7 +44,7 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
   }
 
   loadPage(page) { 
-    this._api.post('/api/binhluan/search',{page: page, pageSize: this.pageSize}).takeUntil(this.unsubscribe).subscribe(res => {
+    this._api.post('/api/binhluan/search',{page: page, pageSize: this.pageSize, mabv: this.mabv}).takeUntil(this.unsubscribe).subscribe(res => {
       this.binhluans = res.data;
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
@@ -74,14 +73,14 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
       var date = new Date();
       let ngay =this.datePipe.transform(date,"yyyy-MM-dd");
         let tmp = {
-          MaLoai:value.maloai,
-          TieuDe:value.tieude,
-          HinhAnh:value.hinhanh,
+          MaTK:value.matk,
+          Username:value.username,
           ThoiGian:ngay,
+          NoiDung:value.noidung, 
           TrangThai:value.trangthai,
-          NoiDung:value.noidung,        
+          MaBaiViet:value.mabv,       
           };
-        this._api.post('/api/tintuc/create-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/binhluan/create-binhluan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
@@ -90,15 +89,15 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
       var date = new Date();
       let ngay =this.datePipe.transform(date,"yyyy-MM-dd");
         let tmp = {
-          maTin:this.binhluan.maTin,
-          maLoai:value.maloai,
-          tieuDe:value.tieude,
-          hinhAnh:value.hinhanh,
+          maBL:this.binhluan.mabl,
+          maTK:value.matk,
+          username:value.username,
           thoiGian:ngay,
+          noiDung:value.noidung,   
           trangThai:value.trangthai,
-          noiDung:value.noidung,         
+          maBaiViet:value.mabv,   
           };
-        this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        this._api.post('/api/binhluan/update-binhluan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
@@ -117,14 +116,36 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
   Reset() {  
     this.binhluan = null;
     this.formdata = this.fb.group({
-      'maloai': ['', Validators.required],
-        'tieude': ['', Validators.required],
-        'hinhanh': ['',Validators.required],
+      'mabl': ['', Validators.required],
+        'matk': ['', Validators.required],
+        'username': ['',Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
     }); 
   }
-
+ DuyetBinhLuan(item){
+   if(item.trangThai=="duyệt")
+   {
+     item.trangThai="chờ"
+   }else{
+    item.trangThai="duyệt"
+  }
+  console.log(item);
+   let tmp={
+     MaBL: item.maBL,
+     MaTK: item.maTK,
+     Username: item.username,
+     HoTen: item.hoTen,
+     ThoiGian: item.thoiGian,
+     NoiDung: item.noiDung,
+     TrangThai:item.trangThai,
+     MaBaiViet: item.maBaiViet
+   }
+  this._api.post('/api/binhluan/update-binhluan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+    alert('Duyệt thành công bình luận');
+    this.search();
+    });
+ }
   createModal() {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
@@ -133,28 +154,27 @@ export class BinhluanComponent extends BaseComponent implements OnInit {
     setTimeout(() => {
       $("#createUserModal").modal("show");
       this.formdata = this.fb.group({
-        'maloai': ['', Validators.required],
-        'tieude': ['', Validators.required],
-        'hinhanh': ['',Validators.required],
+        'mabl': ['', Validators.required],
+        'matk': ['', Validators.required],
+        'username': ['',Validators.required],
         'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
       });
       this.doneSetupForm = true;
     });
   }
-
   public openUpdateModal(row) {
     this.doneSetupForm = false;
     this.showUpdateModal = true; 
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/tintuc/get-by-id/'+ row.maTin).takeUntil(this.unsubscribe).subscribe((res:any) => {
+      this._api.get('/api/binhluan/get-by-id/'+ row.MaBL).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.binhluan = res; 
           this.formdata = this.fb.group({
-            'maloai': [this.binhluan.maLoai, Validators.required],
-            'tieude': [this.binhluan.tieuDe, Validators.required],
-            'hinhanh': [this.binhluan.hinhAnh,Validators.required],
+            'mabl': [this.binhluan.maBL, Validators.required],
+            'matk': [this.binhluan.maTK, Validators.required],
+            'username': [this.binhluan.Username,Validators.required],
             'trangthai': [this.binhluan.trangThai, Validators.required],
             'noidung': [this.binhluan.noiDung, Validators.required],
           }); 

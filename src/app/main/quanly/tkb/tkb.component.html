@@ -90,9 +90,9 @@
             </div>
         </div>
     </div>
-    <!-- <div class="col-xs-12" style="text-align: right;">
+    <div class="col-xs-12" style="text-align: right;">
         <ngb-pagination [collectionSize]="totalRecords" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
-      </div> -->
+      </div>
 </div>
  <div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg full-height-modal">
@@ -103,7 +103,7 @@
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
-            <div class="row">
+            <div class="col-12">
                 <div class="col-6">
                     <div class="form-group">
                        <label class=" form-control-label">Họ Tên</label>

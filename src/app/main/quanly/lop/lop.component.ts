@@ -136,10 +136,10 @@ export class LopComponent extends BaseComponent implements OnInit {
     this.isCreate = false;
     setTimeout(() => {
       $('#createUserModal').modal('toggle');
-      this._api.get('/api/lop/get-by-id/'+ row.maGV).takeUntil(this.unsubscribe).subscribe((res:any) => {
+      this._api.get('/api/lop/get-by-id/'+ row.maLop).takeUntil(this.unsubscribe).subscribe((res:any) => {
         this.lop = res; 
           this.formdata = this.fb.group({
-            'maLop': [this.lop.maLop],
+            'maLop': [this.lop.maLop,Validators.required],
             'tenlop': [this.lop.tenLop,Validators.required],
             'siso': [this.lop.siSo,Validators.required],
           }); 

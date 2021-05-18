@@ -15,20 +15,7 @@
               <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
                 <div class="row form-group">
                   <div class="col-sm-1">
-                    <label class="control-label"> Họ Tên</label>
-                  </div>
-                  <div class="col-sm-6">
-                    <input formControlName="hoten" class="form-control"  type="text" placeholder="Họ Tên" style="width: 100%;" />
-                  </div>
-                  <div class="col-sm-3">
-                    <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
-                  </div>
-                </div>
-              </form>
-              <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
-                <div class="row form-group">
-                  <div class="col-sm-1">
-                    <label class="control-label"> Usernam</label>
+                    <label class="control-label"> Username</label>
                   </div>
                   <div class="col-sm-6">
                     <input formControlName="username" class="form-control"  type="text" placeholder="Username" style="width: 100%;" />
@@ -46,10 +33,8 @@
                             <i class="fa fa-plus"></i>&nbsp;Thêm
                             </a>
                         </p>
-                    </div>
-                    
-                    <div class="card-body">
-                      
+                    </div>                    
+                    <div class="card-body">                   
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -93,111 +78,144 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="col-xs-12" style="text-align: right;">
         <ngb-pagination [collectionSize]="totalRecords" [pageSize]="pageSize" [(page)]="page" [maxSize]="10" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination>
       </div>
 </div>
- <div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg full-height-modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin tài khoản</h4>
-          <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin tài khoản</h4>
-        </div>
-        <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
-          <div class="modal-body no-padding">
-            <div class="row">
-                <div class="col-6">
-                   <div class="form-group">
-                      <label class=" form-control-label">Tên tài khoản</label>
-                      <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                         <input type="text" formControlName="username" class="form-control">
-                      </div>
-                   </div>
-                </div>
-                <div class="col-6">
-                   <div class="form-group">
-                      <label class=" form-control-label">Mật khẩu</label>
-                      <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-usd"></i></div>
-                         <input  type="text" formControlName="password" class="form-control">
-                      </div>
-                   </div>
-                </div>
-                <div class="col-6">
-                   <div class="form-group">
-                      <label class=" form-control-label">Họ tên</label>
-                      <div class="input-group">
-                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                         <input  type="text" formControlName="hoten"  class="form-control">
-                      </div>
-                   </div>
-                </div>
-                <div class="col-6">
-                  <div class="form-group">
-                    <label class=" form-control-label">Ngày sinh</label>
+<div *ngIf="showUpdateModal" id="createUserModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg full-height-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4  *ngIf="isCreate" class="modal-title">Nhập thông tin tài khoản</h4>
+        <h4 *ngIf="!isCreate" class="modal-title">Sửa thông tin tài khoản</h4>
+      </div>
+      <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
+        <div class="modal-body no-padding">
+          <div class="col-12">
+              <div class="col-6">
+                 <div class="form-group">
+                    <label class=" form-control-label">Tên tài khoản</label>
                     <div class="input-group">
-                       <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                       <input  type="text" formControlName="ngaysinh"  class="form-control">
+                       <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                       <input type="text" formControlName="username" class="form-control">
                     </div>
+                    <div *ngIf="submitted && f.username.errors" class="d-flex invalid-feedback">
+                      <div *ngIf="f.username.errors.required">Bạn chưa nhập tên tài khoản!</div>
                   </div>
-               </div>
-               <div class="col-6">
+                 </div>
+              </div>
+              <div class="col-6">
                 <div class="form-group">
-                  <label class=" form-control-label">Địa chỉ</label>
-                  <div class="input-group">
-                     <div class="input-group-addon"><i class="fa fa-address-book"></i></div>
-                     <input  type="text" formControlName="diachi"  class="form-control">
-                  </div>
+                   <label class=" form-control-label">Họ tên</label>
+                   <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                      <input  type="text" formControlName="hoten"  class="form-control">
+                   </div>
+                   <div *ngIf="submitted && f.hoten.errors" class="d-flex invalid-feedback">
+                     <div *ngIf="f.hoten.errors.required">Bạn chưa nhập họ tên!</div>
+                 </div>
                 </div>
              </div>
              <div class="col-6">
               <div class="form-group">
-                <label class=" form-control-label">SĐT</label>
+                <label class=" form-control-label">Địa chỉ</label>
                 <div class="input-group">
-                   <div class="input-group-addon"><i class="fa fa-phone"></i></div>
-                   <input  type="text" formControlName="sdt"  class="form-control">
+                   <div class="input-group-addon"><i class="fa fa-address-book"></i></div>
+                   <input  type="text" formControlName="diachi"  class="form-control">
                 </div>
+                <div *ngIf="submitted && f.diachi.errors" class="d-flex invalid-feedback">
+                  <div *ngIf="f.diachi.errors.required">Bạn chưa nhập địa chỉ!</div>
+              </div>
               </div>
            </div>
            <div class="col-6">
             <div class="form-group">
-              <label class=" form-control-label">Email</label>
+              <label class=" form-control-label">SĐT</label>
               <div class="input-group">
-                 <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-                 <input  type="text" formControlName="email"  class="form-control">
+                 <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                 <input  type="text" formControlName="sdt"  class="form-control">
               </div>
+              <div *ngIf="submitted && f.sdt.errors" class="d-flex invalid-feedback">
+                <div *ngIf="f.sdt.errors.required">Bạn chưa nhập số điện thoại!</div>
+            </div>
             </div>
          </div>
          <div class="col-6">
           <div class="form-group">
-            <label class=" form-control-label">Phân quyền</label>
+            <label class=" form-control-label">Email</label>
             <div class="input-group">
-              <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
-              <select formControlName="phanquyen" class="form-control">
-                <option value="Admin" selected>Admin</option>
-                <option value="User">User</option>                     
-             </select>
+               <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+               <input  type="email" formControlName="email"  class="form-control">
             </div>
+            <div *ngIf="submitted && f.email.errors" class="d-flex invalid-feedback">
+              <div *ngIf="f.emailerrors.required">Bạn chưa nhập email!</div>
+          </div>
           </div>
        </div>
-      </div>
+       <div class="col-6">
+        <div class="form-group">
+          <label class=" form-control-label">Ngày sinh</label>
+          <div class="input-group">
+             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+             <input type="text" formControlName="ngaysinh"  class="form-control">
+          </div>
+          <div *ngIf="submitted && f.ngaysinh.errors" class="d-flex invalid-feedback">
+            <div *ngIf="f.ngaysinh.errors.required">Bạn chưa chọn ngày sinh!</div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-sm" (click)="Reset()">
-            <i class="fa fa-bell"></i> Làm mới
-          </button>
-          <button type="submit" class="btn btn-success btn-sm btn-submit">
-            <i class="fa fa-save"></i> Đồng ý
-          </button>
-          <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">
-            <i class="fa fa-times"></i> Đóng lại
-          </button>
         </div>
-      </form>  
+     </div>
+              <div class="col-6">
+                 <div class="form-group">
+                    <label class=" form-control-label">Mật khẩu</label>
+                    <div class="input-group">
+                       <div class="input-group-addon"><i class="fa fa-usd"></i></div>
+                       <input  type="password" formControlName="password" class="form-control">
+                    </div>
+                    <div *ngIf="submitted && f.password.errors" class="d-flex invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Bạn chưa nhập mật khẩu!</div>
+                  </div>
+                 </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                   <label class=" form-control-label">Xác nhận mật khẩu</label>
+                   <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-usd"></i></div>
+                      <input  type="password" formControlName="nhaplaimatkhau" class="form-control">
+                   </div>
+                   <div *ngIf="submitted && f.nhaplaimatkhau.errors" class="d-flex invalid-feedback">
+                     <div *ngIf="f.nhaplaimatkhau.errors.required">Xác thực mật khẩu bắt buộc!</div>
+                     <div *ngIf="f.nhaplaimatkhau.errors.mustMatch">Xác thực lại mật khẩu không đúng</div>
+                 </div>
+                </div>
+             </div>
+        <div class="col-6">
+        <div class="form-group">
+          <label class=" form-control-label">Phân quyền</label>
+          <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+            <select formControlName="phanquyen" class="form-control">
+              <option value="Admin" selected>Admin</option>
+              <option value="User">User</option>                     
+           </select>
+          </div>
+        </div>
+     </div>
+    </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" (click)="Reset()">
+          <i class="fa fa-bell"></i> Làm mới
+        </button>
+        <button type="submit" class="btn btn-success btn-sm btn-submit">
+          <i class="fa fa-save"></i> Đồng ý
+        </button>
+        <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">
+          <i class="fa fa-times"></i> Đóng lại
+        </button>
+      </div>
+    </form>  
     </div>
   </div>
+</div>

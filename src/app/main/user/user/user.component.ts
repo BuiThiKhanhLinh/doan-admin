@@ -5,8 +5,8 @@ import { FormBuilder, Validators} from '@angular/forms';
 import {FormControl, FormGroup} from '@angular/forms'
 import { BaseComponent } from '../../../lib/base.component';
 import { Observable} from 'rxjs';
-import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
+import { catchError, retry } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { AuthenticationService } from 'src/app/lib/authentication.service';
 declare var $: any;
@@ -28,15 +28,20 @@ export class UserComponent extends BaseComponent implements OnInit {
   public showUpdateModal:any;
   public isCreate:any;
   submitted = false;
-  constructor(private fb: FormBuilder, injector: Injector, private authenticationService: AuthenticationService,private datePipe: DatePipe) {
+  datePipe = new DatePipe('en-US');
+
+  constructor(private fb: FormBuilder, injector: Injector, private authenticationService: AuthenticationService) {
     super(injector);
   }
 
   ngOnInit(): void {
     this.formsearch = this.fb.group({
       'hoten': [''],
-      'username': [''],     
+      'username': [''],
     });
+    this._api.get('/api/taikhoan/get-all').takeUntil(this.unsubscribe).subscribe(res => {
+      this.taikhoan=res;
+      });
     this.search();
   }
   loadPage(page) { 
@@ -50,7 +55,7 @@ export class UserComponent extends BaseComponent implements OnInit {
 
   search() { 
     this.page = 1;
-    this.pageSize = 10;
+    this.pageSize = 6;
     this._api.post('/api/taikhoan/search',{page: this.page, pageSize: this.pageSize, hoten: this.formsearch.get('hoten').value,username: this.formsearch.get('username').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.taikhoans = res.data;
       this.totalRecords =  res.totalItems;
@@ -66,7 +71,8 @@ export class UserComponent extends BaseComponent implements OnInit {
       return;
     } 
     if(this.isCreate) { 
-      let ngay =this.datePipe.transform(value.ngaysinh,"yyyy-MM-dd");
+      let ngay = new Date(value.ngaysinh.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
+        
         let tmp = {
           Username:value.username,  
           PassWord:value.password,
@@ -77,15 +83,16 @@ export class UserComponent extends BaseComponent implements OnInit {
           Email: value.email,
           PhanQuyen: value.phanquyen
           };
+          
         this._api.post('/api/taikhoan/create-taikhoan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Thêm thành công');
           this.search();
           this.closeModal();
           });
     } else { 
-      let ngay =this.datePipe.transform(value.ngaysinh,"yyyy-MM-dd");
+      let ngay = new Date(value.ngaysinh.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
         let tmp = {
-          maTK: this.taikhoan.matk,
+          maTK: this.taikhoan.maTK,
           username: value.username,  
           passWord:value.password,
           hoTen:value.hoten,
@@ -95,16 +102,14 @@ export class UserComponent extends BaseComponent implements OnInit {
           email: value.email,
           phanQuyen: value.phanquyen     
           };
-          console.log(tmp);
+          
         this._api.post('/api/taikhoan/update-taikhoan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
           alert('Cập nhật thành công');
           this.search();
           this.closeModal();
           });
     }
-   
   } 
-
   onDelete(row) { 
     this._api.post('/api/taikhoan/delete-taikhoan',{MaTK:row.maTK}).takeUntil(this.unsubscribe).subscribe(res => {
       alert('Xóa thành công');
@@ -117,13 +122,15 @@ export class UserComponent extends BaseComponent implements OnInit {
     this.formdata = this.fb.group({
         'username': ['', Validators.required],
         'password': ['',Validators.required],
+        'nhaplaimatkhau': ['', Validators.required],
         'hoten': ['',Validators.required],
         'ngaysinh': ['',Validators.required],
         'diachi': ['',Validators.required],
         'sdt': ['',Validators.required],
         'email': ['',Validators.required],
         'phanquyen': ['',Validators.required],
-
+      }, {
+        validator: MustMatch('password', 'nhaplaimatkhau')
     }); 
   }
 
@@ -137,13 +144,15 @@ export class UserComponent extends BaseComponent implements OnInit {
       this.formdata = this.fb.group({
         'username': ['', Validators.required],
         'password': ['',Validators.required],
+        'nhaplaimatkhau': ['', Validators.required],
         'hoten': ['',Validators.required],
         'ngaysinh': ['',Validators.required],
         'diachi': ['',Validators.required],
         'sdt': ['',Validators.required],
         'email': ['',Validators.required],
         'phanquyen': ['',Validators.required],
-
+      }, {
+        validator: MustMatch('password', 'nhaplaimatkhau')
       });
       this.formdata.get('phanquyen').setValue('Admin');
       this.doneSetupForm = true;
@@ -162,12 +171,15 @@ export class UserComponent extends BaseComponent implements OnInit {
           this.formdata = this.fb.group({
             'username': [this.taikhoan.username, Validators.required],
             'password': [this.taikhoan.password,Validators.required],
+            'nhaplaimatkhau': [this.taikhoan.password, Validators.required],
             'hoten': [this.taikhoan.hoTen,Validators.required],
             'ngaysinh': [ngay, Validators.required],
             'diachi': [this.taikhoan.diaChi,Validators.required],
             'sdt': [this.taikhoan.sdt,Validators.required],
             'email': [this.taikhoan.email,Validators.required],
             'phanquyen': [this.taikhoan.phanQuyen,Validators.required],
+          }, {
+            validator: MustMatch('password', 'nhaplaimatkhau')
           }); 
           this.formdata.get('phanquyen').setValue(this.taikhoan.phanQuyen.trim());
           this.doneSetupForm = true;

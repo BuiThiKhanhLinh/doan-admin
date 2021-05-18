@@ -18,13 +18,13 @@
                     <label class="control-label"> Loại Tin</label>
                   </div>
                   <div class="col-sm-6">
-                    <input formControlName="tieude" class="form-control"  type="text" placeholder="Loại Tin" style="width: 100%;" />
+                    <input formControlName="loaitin" class="form-control"  type="text" placeholder="Loại tin" style="width: 100%;" />
                   </div>
                   <div class="col-sm-3">
                     <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
                   </div>
                 </div>
-            </form>
+              </form>
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title">QUẢN LÝ DANH MỤC </strong>
@@ -80,7 +80,7 @@
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
-            <div class="row">
+            <div class="col-12">
                 <div class="col-6">
                    <div class="form-group">
                       <label class=" form-control-label">Mã loại</label>
@@ -98,6 +98,9 @@
                          <input type="text" formControlName="loaitin" class="form-control">
                       </div>
                    </div>
+                   <div *ngIf="submitted && f.loaitin.errors" class="d-flex invalid-feedback">
+                    <div *ngIf="f.loaitin.errors.required">Chưa nhập loại tin!</div>
+                </div>
                 </div>
              </div>
         </div>

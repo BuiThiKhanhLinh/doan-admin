@@ -31,7 +31,7 @@ export const mainRoutes: Routes = [
           loadChildren: () =>
             import('../main/quanly/quanly.module').then((m) => m.QuanLyModule),
           canActivate: [RoleGuard],
-          data: { roles : [Role.Admin]},
+          data: { roles : [Role.Admin,Role.User]},
         },
         {
           path: 'thongke',

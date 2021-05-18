@@ -96,7 +96,7 @@
         </div>
         <form *ngIf="doneSetupForm" [formGroup]="formdata"  (ngSubmit)="onSubmit(formdata.value)" class="form-horizontal utehy-form">
           <div class="modal-body no-padding">
-            <div class="row">
+            <div class="col-12">
                 <div class="col-6">
                    <div class="form-group">
                       <label class=" form-control-label">Môn Dạy</label>
@@ -143,6 +143,9 @@
                          <input  type="text" formControlName="hoten"  class="form-control">
                       </div>
                    </div>
+                   <div *ngIf="submitted && f.hoten.errors" class="d-flex invalid-feedback">
+                    <div *ngIf="f.hoten.errors.required">Chưa nhập họ tên giáo viên!</div>
+                </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
@@ -161,6 +164,9 @@
                         <input  type="text" formControlName="diachi"  class="form-control">
                      </div>
                   </div>
+                  <div *ngIf="submitted && f.diachi.errors" class="d-flex invalid-feedback">
+                    <div *ngIf="f.diachi.errors.required">Bạn chưa nhập địa chỉ!</div>
+                </div>
                </div>
                  <div class="col-6">
                     <div class="form-group">
@@ -170,6 +176,9 @@
                           <input  type="text" formControlName="sdt"  class="form-control">
                        </div>
                     </div>
+                    <div *ngIf="submitted && f.sdt.errors" class="d-flex invalid-feedback">
+                      <div *ngIf="f.sdt.errors.required">Bạn chưa nhập số điện thoại!</div>
+                  </div>
                  </div>
                  <div class="col-6">
                     <div class="form-group">

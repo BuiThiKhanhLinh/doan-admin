@@ -31,7 +31,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
   constructor(private fb: FormBuilder, injector: Injector, private datePipe: DatePipe) {
     super(injector);
   }
-
   ngOnInit(): void {
     this.formsearch = this.fb.group({
       'tieude': [''] 
@@ -40,8 +39,6 @@ export class TintucComponent extends BaseComponent implements OnInit {
       this.loaitin=res;
       });
    this.search();
-   
- 
   }
 
   loadPage(page) { 
@@ -54,7 +51,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
 
   search() { 
     this.page = 1;
-    this.pageSize = 4;
+    this.pageSize = 3;
     this._api.post('/api/tintuc/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.tintucs = res.data;
       this.totalRecords =  res.totalItems;
@@ -77,11 +74,11 @@ export class TintucComponent extends BaseComponent implements OnInit {
           TieuDe:value.tieude,
           HinhAnh:value.hinhanh,
           ThoiGian:ngay,
-          TrangThai:value.trangthai,
+          // TrangThai:value.trangthai,
           NoiDung:value.noidung,        
           };
         this._api.post('/api/tintuc/create-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Thêm thành công');
+          alert('Thêm tin tức thành công');
           this.search();
           this.closeModal();
           });
@@ -93,21 +90,19 @@ export class TintucComponent extends BaseComponent implements OnInit {
           tieuDe:value.tieude,
           hinhAnh:value.hinhanh,
           thoiGian:ngay,
-          trangThai:value.trangthai,
+          // trangThai:value.trangthai,
           noiDung:value.noidung,         
           };
         this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Cập nhật thành công');
+          alert('Cập nhật tin tức thành công');
           this.search();
           this.closeModal();
           });
     }
-   
   } 
-
   onDelete(row) { 
     this._api.post('/api/tintuc/delete-tintuc',{MaTin:row.maTin}).takeUntil(this.unsubscribe).subscribe(res => {
-      alert('Xóa thành công');
+      alert('Xóa tin tức thành công');
       this.search(); 
       });
   }
@@ -118,10 +113,31 @@ export class TintucComponent extends BaseComponent implements OnInit {
       'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'trangthai': ['', Validators.required],
+        // 'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
     }); 
   }
+  // DuyetTinTuc(item){
+  //   if(item.trangThai=="Duyệt")
+  //   {
+  //     item.trangThai="Chờ"
+  //   }else{
+  //     item.trangThai="Duyệt"
+  //   }
+  //   let tmp={
+  //     MaTin: item.maTin,
+  //     MaLoai: item.maLoai,
+  //     TieuDe: item.tieuDe,
+  //     HinhAnh: item.hinhAnh,
+  //     ThoiGian:item.thoiGian,
+  //     TrangThai: item.trangThai,
+  //     NoiDung: item.noiDung
+  //   }
+  //   this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+  //     alert('Duyệt thành công bình luận');
+  //     this.search();
+  //   });
+  // }
 
   createModal() {
     this.doneSetupForm = false;
@@ -134,7 +150,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
         'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        'trangthai': ['', Validators.required],
+        // 'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
       });
       this.doneSetupForm = true;
@@ -153,7 +169,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
             'maloai': [this.tintuc.maLoai, Validators.required],
             'tieude': [this.tintuc.tieuDe, Validators.required],
             'hinhanh': [this.tintuc.hinhAnh,Validators.required],
-            'trangthai': [this.tintuc.trangThai, Validators.required],
+            // 'trangthai': [this.tintuc.trangThai, Validators.required],
             'noidung': [this.tintuc.noiDung, Validators.required],
           }); 
           this.doneSetupForm = true;

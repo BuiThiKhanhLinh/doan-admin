@@ -22,34 +22,50 @@ import { LopComponent } from './lop/lop.component';
       {
         path: 'tintuc',
         component: TintucComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin, Role.Censor, Role.Writer]},
       },
       {
         path: 'danhmuc',
         component: DanhmucComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin]},
       },
       {
         path: 'baiviet',
         component: BaivietComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin, Role.Censor]},
       },
       {
         path: 'binhluan/:id',
         component: BinhluanComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin, Role.Censor]},
       },
       {
         path: 'giaovien',
         component: GiaovienComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin]},
       },
       {
         path: 'hocsinh',
         component: HocsinhComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin]},
       },
       {
         path: 'lop',
         component: LopComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin]},
       },
       {
         path: 'tkb',
         component: TkbComponent,
+        canActivate: [RoleGuard],
+        data: { roles : [Role.Admin]},
       },
   ]),  
   ]

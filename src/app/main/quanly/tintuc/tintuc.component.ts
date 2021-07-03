@@ -7,6 +7,8 @@ import { Observable} from 'rxjs';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/takeUntil';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2/dist/sweetalert2.js'; 
+import { AuthenticationService } from 'src/app/lib/authentication.service';
 declare var $: any;
 
 @Component({
@@ -27,8 +29,9 @@ export class TintucComponent extends BaseComponent implements OnInit {
   public showUpdateModal:any;
   public isCreate:any;
   public loaitin:any;
+  public user: any;
   submitted = false;
-  constructor(private fb: FormBuilder, injector: Injector, private datePipe: DatePipe) {
+  constructor(private fb: FormBuilder, injector: Injector, private datePipe: DatePipe,private authenticationService: AuthenticationService,) {
     super(injector);
   }
   ngOnInit(): void {
@@ -38,6 +41,8 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this._api.get('/api/danhmuctin/get-all').takeUntil(this.unsubscribe).subscribe(res => {
       this.loaitin=res;
       });
+    this.user =  this.authenticationService.userValue.phanQuyen.trim();
+    console.log(this.user);
    this.search();
   }
 
@@ -54,6 +59,7 @@ export class TintucComponent extends BaseComponent implements OnInit {
     this.pageSize = 3;
     this._api.post('/api/tintuc/search',{page: this.page, pageSize: this.pageSize, tieude: this.formsearch.get('tieude').value}).takeUntil(this.unsubscribe).subscribe(res => {
       this.tintucs = res.data;
+      console.log(this.tintucs);
       this.totalRecords =  res.totalItems;
       this.pageSize = res.pageSize;
       });
@@ -69,42 +75,111 @@ export class TintucComponent extends BaseComponent implements OnInit {
     if(this.isCreate) { 
       var date = new Date();
       let ngay =this.datePipe.transform(date,"yyyy-MM-dd");
+      let anhtmp = value.hinhanh.split('\\');
         let tmp = {
           MaLoai:value.maloai,
           TieuDe:value.tieude,
-          HinhAnh:value.hinhanh,
+          HinhAnh:anhtmp[anhtmp.length-1],
           ThoiGian:ngay,
-          // TrangThai:value.trangthai,
+          TrangThai:value.trangthai,
           NoiDung:value.noidung,        
           };
         this._api.post('/api/tintuc/create-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Thêm tin tức thành công');
+          Swal.fire(
+            'Thành công!',
+            'Thêm thành công',
+            'success'
+          );
           this.search();
           this.closeModal();
           });
     } else { 
       let ngay =this.datePipe.transform(this.tintuc.thoiGian,"yyyy-MM-dd");
+      let anhtmp = value.hinhanh.split('\\');
         let tmp = {
           maTin:this.tintuc.maTin,
           maLoai:value.maloai,
           tieuDe:value.tieude,
-          hinhAnh:value.hinhanh,
+          hinhAnh:anhtmp[anhtmp.length-1],
           thoiGian:ngay,
-          // trangThai:value.trangthai,
+          trangThai:value.trangthai,
           noiDung:value.noidung,         
           };
+          console.log(tmp);
         this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Cập nhật tin tức thành công');
+          Swal.fire(
+            'Thành công!',
+            'Cập nhật thành công',
+            'success'
+          );
           this.search();
           this.closeModal();
           });
     }
   } 
+
+  DuyetTinTuc(item){
+    let textConfig = 'Tin tức sẽ được hiển thị';
+    if(item.trangThai=="duyệt")
+    {
+      textConfig = 'Tin tức sẽ được ẩn đi';
+    }
+   Swal.fire({
+    title: 'Bạn muốn thay đổi?',
+    text: textConfig,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Có',
+    cancelButtonText: 'Không'
+  }).then((result) => {
+    if (result.value) {
+      let tmp={
+        maTin:item.maTin,
+        maLoai:item.maLoai,
+        tieuDe:item.tieuDe,
+        hinhAnh:item.hinhAnh,
+        thoiGian:item.thoiGian,
+        trangThai:item.trangThai,
+        noiDung:item.noiDung,   
+      };
+      if(item.trangThai=="duyệt")
+        {
+          tmp.trangThai = 'chờ';
+        }else {
+          tmp.trangThai = 'duyệt';
+        }
+      this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
+        Swal.fire(
+          'Thành công!',
+          'Cập nhật thành công',
+          'success'
+        );
+        this.search();
+        });
+    }
+  })
+  }
+
   onDelete(row) { 
-    this._api.post('/api/tintuc/delete-tintuc',{MaTin:row.maTin}).takeUntil(this.unsubscribe).subscribe(res => {
-      alert('Xóa tin tức thành công');
-      this.search(); 
-      });
+      Swal.fire({
+        title: 'Bạn có chắc muốn xoá?',
+        text: 'Bạn sẽ không thể khôi phục bản ghi này!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không'
+      }).then((result) => {
+        if (result.value) {
+          this._api.post('/api/tintuc/delete-tintuc',{MaTin:row.maTin}).takeUntil(this.unsubscribe).subscribe(res => {
+            this.search(); 
+            Swal.fire(
+              'Đã xoá!',
+              'Bản ghi không thể khôi phục',
+              'success'
+            );
+            });
+        }
+      })
   }
 
   Reset() {  
@@ -113,32 +188,12 @@ export class TintucComponent extends BaseComponent implements OnInit {
       'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        // 'trangthai': ['', Validators.required],
+        'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
     }); 
+    this.formdata.get('trangthai').setValue('duyệt');
+    this.formdata.get('maloai').setValue(this.loaitin[0].maLoai);
   }
-  // DuyetTinTuc(item){
-  //   if(item.trangThai=="Duyệt")
-  //   {
-  //     item.trangThai="Chờ"
-  //   }else{
-  //     item.trangThai="Duyệt"
-  //   }
-  //   let tmp={
-  //     MaTin: item.maTin,
-  //     MaLoai: item.maLoai,
-  //     TieuDe: item.tieuDe,
-  //     HinhAnh: item.hinhAnh,
-  //     ThoiGian:item.thoiGian,
-  //     TrangThai: item.trangThai,
-  //     NoiDung: item.noiDung
-  //   }
-  //   this._api.post('/api/tintuc/update-tintuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-  //     alert('Duyệt thành công bình luận');
-  //     this.search();
-  //   });
-  // }
-
   createModal() {
     this.doneSetupForm = false;
     this.showUpdateModal = true;
@@ -150,10 +205,12 @@ export class TintucComponent extends BaseComponent implements OnInit {
         'maloai': ['', Validators.required],
         'tieude': ['', Validators.required],
         'hinhanh': ['',Validators.required],
-        // 'trangthai': ['', Validators.required],
+        'trangthai': ['', Validators.required],
         'noidung': ['', Validators.required],
       });
       this.doneSetupForm = true;
+      this.formdata.get('trangthai').setValue('duyệt');
+      this.formdata.get('maloai').setValue(this.loaitin[0].maLoai);
     });
   }
 
@@ -168,10 +225,11 @@ export class TintucComponent extends BaseComponent implements OnInit {
           this.formdata = this.fb.group({
             'maloai': [this.tintuc.maLoai, Validators.required],
             'tieude': [this.tintuc.tieuDe, Validators.required],
-            'hinhanh': [this.tintuc.hinhAnh,Validators.required],
-            // 'trangthai': [this.tintuc.trangThai, Validators.required],
+            'hinhanh': ['',Validators.required],
+            'trangthai': [this.tintuc.trangThai, Validators.required],
             'noidung': [this.tintuc.noiDung, Validators.required],
           }); 
+          this.formdata.get('trangthai').setValue(this.tintuc.trangThai);
           this.doneSetupForm = true;
         }); 
     }, 700);

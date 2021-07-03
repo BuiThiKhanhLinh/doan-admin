@@ -27,6 +27,7 @@
     "primeui": "^4.1.15",
     "rxjs": "~6.6.0",
     "rxjs-compat": "^6.6.3",
+    "sweetalert2": "^11.0.18",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

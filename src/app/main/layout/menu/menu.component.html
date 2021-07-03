@@ -12,43 +12,48 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="index.html"> <i class="menu-icon fa fa-dashboard"></i>Quản Lý Việc Làm </a>
+                    <a [routerLink]="['/']"> <i class="menu-icon fa fa-dashboard"></i>Quản Lý Việc Làm </a>
                 </li>
-                
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>Tin Tức</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-badge"></i><a [routerLink]="['/quanly/danhmuc']">Danh Mục Tin</a></li>
-                        <li><i class="fa fa-id-card-o"></i><a [routerLink]="['/quanly/tintuc']">Tin Tức</a></li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a [routerLink]="['/quanly/baiviet']" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Bài Viết</a>
-                </li>
-                <!-- <li class="">
-                    <a [routerLink]="['/quanly/tkb']"> <i class="menu-icon fa fa-th"></i>Thời Khóa Biểu</a>
-                </li> -->
+                <ng-container *ngIf="user =='Admin' || user =='Censor' || user =='Writer'">
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-laptop"></i>Tin Tức</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li *ngIf= "user =='Admin'"><i class="fa fa-id-badge"></i><a [routerLink]="['/quanly/danhmuc']">Danh Mục Tin</a></li>
+                            <li><i class="fa fa-id-card-o"></i><a [routerLink]="['/quanly/tintuc']">Tin Tức</a></li>
+                        </ul>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="user =='Admin'">
+                    <li class="">
+                        <a [routerLink]="['/quanly/baiviet']" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Bài Viết</a>
+                    </li>
+                    <!-- <li class="">
+                        <a [routerLink]="['/quanly/tkb']"> <i class="menu-icon fa fa-th"></i>Thời Khóa Biểu</a>
+                    </li> -->
 
-                <li class="">
-                    <a [routerLink]="['/quanly/hocsinh']"> <i class="menu-icon fa fa-user"></i>Học Sinh</a>
-                   
-                </li>
-                <li>
-                    <a [routerLink]="['/quanly/giaovien']"> <i class="menu-icon fa fa-user"></i>Giáo Viên </a>
-                </li>
-                <li class="">
-                    <a [routerLink]="['/quanly/lop']"> <i class="menu-icon fa fa-bar-chart"></i>Lớp Học</a>
+                    <li class="">
+                        <a [routerLink]="['/quanly/hocsinh']"> <i class="menu-icon fa fa-user"></i>Học Sinh</a>
                     
-                </li>
-                <li>
-                    <a [routerLink]="['/user/user']"> <i class="menu-icon fa fa fa-address-book"></i>Tài Khoản</a>
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Thống kê</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-badge"></i><a [routerLink]="['/thongke/topbaiviet']">Top bài viết nhiều quan tâm</a></li>
-                    </ul>
-                </li>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/quanly/giaovien']"> <i class="menu-icon fa fa-user"></i>Giáo Viên </a>
+                    </li>
+                    <li class="">
+                        <a [routerLink]="['/quanly/lop']"> <i class="menu-icon fa fa-bar-chart"></i>Lớp Học</a>
+                        
+                    </li>
+                    <li>
+                        <a [routerLink]="['/user/user']"> <i class="menu-icon fa fa fa-address-book"></i>Tài Khoản</a>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="user =='Admin' || user =='Censor' || user =='Writer'">
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Thống kê</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-id-badge"></i><a [routerLink]="['/thongke/topbaiviet']">Top bài viết nhiều quan tâm</a></li>
+                        </ul>
+                    </li>
+                </ng-container>
 
             </ul>
         </div>

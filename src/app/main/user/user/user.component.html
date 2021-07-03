@@ -12,29 +12,26 @@
     <div class="animated fadeIn">
         <div class="row">
             <div class="col-md-12">
-              <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
-                <div class="row form-group">
-                  <div class="col-sm-1">
-                    <label class="control-label"> Username</label>
-                  </div>
-                  <div class="col-sm-6">
-                    <input formControlName="username" class="form-control"  type="text" placeholder="Username" style="width: 100%;" />
-                  </div>
-                  <div class="col-sm-3">
-                    <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
-                  </div>
-                </div>
-              </form>
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title" >QUẢN LÝ TÀI KHOẢN</strong>
                         <p class="pull-right">
-                            <a (click)="createModal()" class="btn btn-success btn-xs">
+                            <a (click)="createModal()" class="btn btn-success btn-xs"  style="color: white;">
                             <i class="fa fa-plus"></i>&nbsp;Thêm
                             </a>
                         </p>
                     </div>                    
-                    <div class="card-body">                   
+                    <div class="card-body">    
+                      <form class="form-horizontal" role="form" [formGroup]="formsearch"  (ngSubmit)="search()">
+                        <div class="row form-group">
+                          <div class="col-sm-6">
+                            <input formControlName="username" class="form-control"  type="text" placeholder="Nhập họ tên" style="width: 100%;" />
+                          </div>
+                          <div class="col-sm-3">
+                            <button (click)="search()" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                          </div>
+                        </div>
+                      </form>               
                         <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -196,8 +193,10 @@
           <div class="input-group">
             <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
             <select formControlName="phanquyen" class="form-control">
-              <option value="Admin" selected>Admin</option>
-              <option value="User">User</option>                     
+              <option value="Admin" selected>Quản trị</option>
+              <option value="User">Học sinh</option>
+              <option value="Censor">Người kiểm duyệt</option>
+              <option value="Writer">Người viết bài</option>                        
            </select>
           </div>
         </div>

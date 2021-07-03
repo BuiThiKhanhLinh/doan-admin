@@ -14,7 +14,9 @@ export const mainRoutes: Routes = [
       path: '', component: MainComponent,
       children: [
         {
-            path: '', component: DashboardComponent
+            path: '', component: DashboardComponent,
+            canActivate: [RoleGuard],
+            data: { roles : [Role.Admin, Role.Censor, Role.Writer]},
         },
         {
           path: 'unauthorized',
@@ -25,19 +27,21 @@ export const mainRoutes: Routes = [
           loadChildren: () =>
             import('../main/user/user.module').then((m) => m.UserModule),
           canActivate: [RoleGuard],
+          data: { roles : [Role.Admin]}
         },
         {
           path: 'quanly',
           loadChildren: () =>
             import('../main/quanly/quanly.module').then((m) => m.QuanLyModule),
           canActivate: [RoleGuard],
-          data: { roles : [Role.Admin,Role.User]},
+          data: { roles : [Role.Admin, Role.Censor, Role.Writer]},
         },
         {
           path: 'thongke',
           loadChildren: () =>
             import('../main/thongke/thongke.module').then((m) => m.ThongkeModule),
           canActivate: [RoleGuard],
+          data: { roles : [Role.Admin, Role.Censor, Role.Writer]},
         },
         
        

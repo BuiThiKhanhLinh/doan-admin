@@ -9,6 +9,7 @@ import 'rxjs/add/operator/takeUntil';
 import { catchError, retry } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { AuthenticationService } from 'src/app/lib/authentication.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js'; 
 declare var $: any;
 @Component({
   selector: 'app-user',
@@ -85,7 +86,11 @@ export class UserComponent extends BaseComponent implements OnInit {
           };
           
         this._api.post('/api/taikhoan/create-taikhoan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Thêm thành công');
+          Swal.fire(
+            'Thành công!',
+            'Thêm thành công',
+            'success'
+          );
           this.search();
           this.closeModal();
           });
@@ -104,17 +109,37 @@ export class UserComponent extends BaseComponent implements OnInit {
           };
           
         this._api.post('/api/taikhoan/update-taikhoan',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Cập nhật thành công');
+          Swal.fire(
+            'Thành công!',
+            'Cập nhật thành công',
+            'success'
+          );
           this.search();
           this.closeModal();
           });
     }
   } 
   onDelete(row) { 
-    this._api.post('/api/taikhoan/delete-taikhoan',{MaTK:row.maTK}).takeUntil(this.unsubscribe).subscribe(res => {
-      alert('Xóa thành công');
-      this.search(); 
-      });
+    Swal.fire({
+      title: 'Bạn có chắc muốn xoá?',
+      text: 'Bạn sẽ không thể khôi phục bản ghi này!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không'
+    }).then((result) => {
+      if (result.value) {
+        this._api.post('/api/taikhoan/delete-taikhoan',{MaTK:row.maTK}).takeUntil(this.unsubscribe).subscribe(res => {
+          this.search(); 
+          Swal.fire(
+            'Đã xoá!',
+            'Bản ghi không thể khôi phục',
+            'success'
+          );
+          });
+      }
+    })
+    
   }
 
   Reset() {  

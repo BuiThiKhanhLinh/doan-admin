@@ -4,6 +4,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { FormBuilder, Validators} from '@angular/forms';
 import { BaseComponent } from '../../../lib/base.component';
 import 'rxjs/add/operator/takeUntil';
+import Swal from 'sweetalert2/dist/sweetalert2.js'; 
 declare var $: any;
 
 @Component({
@@ -68,7 +69,11 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
           loaiTin:value.loaitin,     
           };
         this._api.post('/api/danhmuctin/create-danhmuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Thêm thành công');
+          Swal.fire(
+            'Thành công!',
+            'Thêm thành công',
+            'success'
+          );
           this.search();
           this.closeModal();
           });
@@ -78,7 +83,11 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
           loaiTin:value.loaitin,      
           };
         this._api.post('/api/danhmuctin/update-danhmuc',tmp).takeUntil(this.unsubscribe).subscribe(res => {
-          alert('Cập nhật thành công');
+          Swal.fire(
+            'Thành công!',
+            'Cập nhật thành công',
+            'success'
+          );
           this.search();
           this.closeModal();
           });
@@ -87,10 +96,25 @@ export class DanhmucComponent extends BaseComponent implements OnInit {
   } 
 
   onDelete(row) { 
-    this._api.post('/api/danhmuctin/delete-danhmuc',{MaLoai:row.maLoai}).takeUntil(this.unsubscribe).subscribe(res => {
-      alert('Xóa thành công');
-      this.search(); 
-      });
+      Swal.fire({
+        title: 'Bạn có chắc muốn xoá?',
+        text: 'Bạn sẽ không thể khôi phục bản ghi này!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không'
+      }).then((result) => {
+        if (result.value) {
+          this._api.post('/api/danhmuctin/delete-danhmuc',{MaLoai:row.maLoai}).takeUntil(this.unsubscribe).subscribe(res => {
+            this.search(); 
+            Swal.fire(
+              'Đã xoá!',
+              'Bản ghi không thể khôi phục',
+              'success'
+            );
+            });
+        }
+      })
   }
 
   Reset() {  
